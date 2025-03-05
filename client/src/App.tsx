@@ -1,31 +1,37 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import './App.css'
-import LandingPage from './pages/LandingPage'
-import AuthPage from './pages/AuthPage'
-import { AuthProvider } from './context/AuthContext'
-import PrivateRoute from './components/PrivateRoute'
-import Dashboard from './pages/dashboard'
+import { Switch, Route } from "wouter";
+import { queryClient } from "./lib/queryClient";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "@/components/ui/toaster";
+import { AuthProvider } from "./hooks/use-auth";
+import { ProtectedRoute } from "./lib/protected-route";
+import NavHeader from "./components/nav-header";
+
+import HomePage from "@/pages/home-page";
+import AuthPage from "@/pages/auth-page";
+import PostJob from "@/pages/post-job";
+import NotFound from "@/pages/not-found";
+
+function Router() {
+  return (
+    <Switch>
+      <Route path="/auth" component={AuthPage} />
+      <ProtectedRoute path="/" component={HomePage} />
+      <ProtectedRoute path="/post-job" component={PostJob} />
+      <Route component={NotFound} />
+    </Switch>
+  );
+}
 
 function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
-          <Routes>
-            {/* public route */}
-            <Route path="/login" element={<AuthPage />} />
-            <Route path="/" element={<LandingPage />} />
-            
-            {/* private route */}
-            <Route element={<PrivateRoute />}>
-              <Route path="/dashboard" element={<Dashboard />} />
-            </Route>
-
-            {/* fallback route */}
-            <Route path="*" element={<Navigate to="/login" />} />
-          </Routes>
-      </BrowserRouter>
-    </AuthProvider>
-  )
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <NavHeader />
+        <Router />
+        <Toaster />
+      </AuthProvider>
+    </QueryClientProvider>
+  );
 }
 
-export default App
+export default App;

@@ -17,6 +17,17 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  role: {
+    type: String,
+    required: true,
+    enum: ['seeker', 'recruiter'], 
+    default: 'seeker',
+  },
+  profilePicture: {
+    type: String,
+    required: true,
+    default: 'https://cdn.pixabay.com/photo/2022/02/23/20/17/man-7031423_1280.png',
+  },
 });
 
 // Hash the password before saving it

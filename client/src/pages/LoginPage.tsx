@@ -5,13 +5,12 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { BriefcaseIcon, UserIcon, LockIcon, MailIcon, CheckCircleIcon, AlertCircleIcon } from "lucide-react"
+import { BriefcaseIcon, LockIcon, MailIcon, CheckCircleIcon, AlertCircleIcon } from "lucide-react"
 import { useAuth } from "@/context/AuthContext"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 
-interface FormData {
+interface LoginFormData {
   email: string
-  username: string
   password: string
 }
 
@@ -19,19 +18,17 @@ interface ApiResponse {
   token: string
 }
 
-export default function AuthPage() {
-  const [isLogin, setIsLogin] = useState<boolean>(true)
-  const [formData, setFormData] = useState<FormData>({
+export default function LoginPage() {
+  const [formData, setFormData] = useState<LoginFormData>({
     email: "",
-    username: "",
     password: "",
   })
   const [message, setMessage] = useState<string>("")
   const [isSuccess, setIsSuccess] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  const {login} = useAuth();
-  const navigate = useNavigate();
+  const { login } = useAuth()
+  const navigate = useNavigate()
 
   // Handle input changes
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -45,22 +42,18 @@ export default function AuthPage() {
     setIsLoading(true)
 
     try {
-      const url = isLogin ? "http://localhost:8080/api/auth/login" : "http://localhost:8080/api/auth/register"
+      const url = "http://localhost:8080/api/auth/login"
       const response = await axios.post<ApiResponse>(url, formData)
 
       setIsSuccess(true)
-      setMessage(isLogin ? "Login successful!" : "User registered successfully!")
+      setMessage("Login successful!")
 
       // Store JWT token in localStorage
       if (response.data.token) {
-        localStorage.setItem("token", response.data.token);
-        login(response.data.token);
+        localStorage.setItem("token", response.data.token)
+        login(response.data.token)
       }
-      if(isLogin) {
-        navigate("/")
-      } else {
-        setIsLogin(true);
-      }
+      navigate("/")
     } catch (err: any) {
       setIsSuccess(false)
       setMessage(err.response?.data?.error || "An error occurred")
@@ -82,36 +75,13 @@ export default function AuthPage() {
 
         <Card>
           <CardHeader>
-            <CardTitle>{isLogin ? "Sign in to your account" : "Create a new account"}</CardTitle>
+            <CardTitle>Sign in to your account</CardTitle>
             <CardDescription>
-              {isLogin
-                ? "Enter your credentials to access your dashboard"
-                : "Fill in your details to join our freelance community"}
+              Enter your credentials to access your dashboard
             </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
-              {!isLogin && (
-                <div className="space-y-2">
-                  <Label htmlFor="username">Username</Label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                      <UserIcon className="h-4 w-4 text-gray-400" />
-                    </div>
-                    <Input
-                      id="username"
-                      type="text"
-                      name="username"
-                      placeholder="johndoe"
-                      className="pl-10"
-                      value={formData.username}
-                      onChange={handleInputChange}
-                      required
-                    />
-                  </div>
-                </div>
-              )}
-
               <div className="space-y-2">
                 <Label htmlFor="email">Email</Label>
                 <div className="relative">
@@ -134,11 +104,9 @@ export default function AuthPage() {
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="password">Password</Label>
-                  {isLogin && (
-                    <a href="#" className="text-xs text-primary hover:underline">
-                      Forgot password?
-                    </a>
-                  )}
+                  <a href="#" className="text-xs text-primary hover:underline">
+                    Forgot password?
+                  </a>
                 </div>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -180,10 +148,10 @@ export default function AuthPage() {
                         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                       ></path>
                     </svg>
-                    {isLogin ? "Signing in..." : "Creating account..."}
+                    Signing in...
                   </span>
                 ) : (
-                  <span>{isLogin ? "Sign in" : "Create account"}</span>
+                  <span>Sign in</span>
                 )}
               </Button>
             </form>
@@ -200,14 +168,14 @@ export default function AuthPage() {
                       <AlertCircleIcon className="h-4 w-4 text-red-500" />
                     )}
                   </div>
-                    <AlertDescription className="text-sm w-full">{message}</AlertDescription>
+                  <AlertDescription className="text-sm w-full">{message}</AlertDescription>
                 </div>
               </Alert>
             )}
           </CardContent>
           <CardFooter>
-            <Button variant="link" className="w-full" onClick={() => setIsLogin(!isLogin)}>
-              {isLogin ? "Don't have an account? Sign up" : "Already have an account? Sign in"}
+            <Button variant="link" className="w-full" asChild>
+              <Link to="/register">Don't have an account? Sign up</Link>
             </Button>
           </CardFooter>
         </Card>
@@ -229,4 +197,3 @@ export default function AuthPage() {
     </div>
   )
 }
-

@@ -5,6 +5,8 @@ import AuthPage from './pages/AuthPage'
 import { AuthProvider } from './context/AuthContext'
 import PrivateRoute from './components/PrivateRoute'
 import Dashboard from './pages/dashboard'
+import LoginPage from './pages/LoginPage'
+import RegisterPage from './pages/RegisterPage'
 
 function App() {
   return (
@@ -12,7 +14,8 @@ function App() {
       <BrowserRouter>
           <Routes>
             {/* public route */}
-            <Route path="/login" element={<AuthPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
             <Route path="/" element={<LandingPage />} />
             
             {/* private route */}

@@ -7,6 +7,8 @@ import PrivateRoute from './components/PrivateRoute'
 import Dashboard from './pages/dashboard'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
+import JobPage from './pages/JobsPage'
+import JobDetailPage from './pages/JobDetailPage'
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/" element={<LandingPage />} />
+            <Route path="/jobs" element={<JobPage />} />
+            <Route path="/jobs/:id" element={<JobDetailPage />} />
             
             {/* private route */}
             <Route element={<PrivateRoute />}>

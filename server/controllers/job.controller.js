@@ -12,6 +12,23 @@ export const getJobs = async (req, res) => {
   }
 };
 
+export const getJobById = async (req, res) => {
+  try {
+    const jobId = req.params.id;  
+    const job = await Job.findById(jobId); 
+    
+    if (!job) {
+      return res.status(404).json({ success: false, message: "Job not found" });
+    }
+
+    res.status(200).json({ success: true, data: job });
+  } catch (error) {
+    console.error("Error in fetching job by ID: ", error.message);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+
 // Create a new job
 export const createJob = async (req, res) => {
   const job = req.body;

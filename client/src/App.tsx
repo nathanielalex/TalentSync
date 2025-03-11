@@ -9,6 +9,8 @@ import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import JobPage from './pages/JobsPage'
 import JobDetailPage from './pages/JobDetailPage'
+import JobPostingPage from './pages/JobPostingPage'
+import SeekerProfilePage from './pages/SeekerProfilePage'
 
 function App() {
   return (
@@ -21,6 +23,9 @@ function App() {
             <Route path="/" element={<LandingPage />} />
             <Route path="/jobs" element={<JobPage />} />
             <Route path="/jobs/:id" element={<JobDetailPage />} />
+            <Route path="/job-posting" element={<JobPostingPage />} />
+            <Route path="/seeker-profile" element={<SeekerProfilePage />} />
+            
             
             {/* private route */}
             <Route element={<PrivateRoute />}>

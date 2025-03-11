@@ -5,10 +5,6 @@ const jobSchema = new mongoose.Schema({
     type: String,
     required: true, 
   },
-  company: {
-    type: String,
-    required: true, 
-  },
   postedAt: {
     type: Date,
     required: true, 
@@ -29,9 +25,15 @@ const jobSchema = new mongoose.Schema({
     type: [String],
     required: true, 
   },
-  skillLevels: {
-    type: [Number],
-    required: true, 
+  postedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+  isActive: {
+    type: Boolean,
+    default: true,
+    required: true,
   },
 });
 

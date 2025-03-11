@@ -23,12 +23,12 @@ function App() {
             <Route path="/" element={<LandingPage />} />
             <Route path="/jobs" element={<JobPage />} />
             <Route path="/jobs/:id" element={<JobDetailPage />} />
-            <Route path="/job-posting" element={<JobPostingPage />} />
             <Route path="/seeker-profile" element={<SeekerProfilePage />} />
             
             
             {/* private route */}
             <Route element={<PrivateRoute />}>
+              <Route path="/job-posting" element={<JobPostingPage />} />
               <Route path="/dashboard" element={<Dashboard />} />
             </Route>
 

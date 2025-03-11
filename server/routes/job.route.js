@@ -5,11 +5,14 @@ import {
   updateJob,
   createJob,
   getJobById,
+  getCurrentJobs
 } from "../controllers/job.controller.js";
 
 const router = express.Router();
 
 router.get("/", getJobs);
+
+router.get("/current", getCurrentJobs);
 
 router.get("/:id", getJobById);
     

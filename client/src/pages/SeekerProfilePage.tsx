@@ -72,7 +72,6 @@ export default function FreelancerProfileSimple() {
     overview:
       "Experienced full stack developer with 5+ years of experience building web applications. Specialized in React, Node.js, and modern JavaScript frameworks. Passionate about creating intuitive user interfaces and scalable backend systems.",
     skills: ["React", "JavaScript", "Node.js", "TypeScript", "UI/UX Design"],
-    skillInput: "",
     experience: [
       {
         id: 1,

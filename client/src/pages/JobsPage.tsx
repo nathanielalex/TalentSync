@@ -23,86 +23,86 @@ import { Job } from "@/shared/schema"
 import { useNavigate } from "react-router-dom"
 
 // Sample job data
-const JOBS = [
-  {
-    id: 1,
-    title: "Frontend React Developer",
-    company: "TechSolutions Inc.",
-    location: "Remote",
-    type: "Contract",
-    rate: "$40-60/hr",
-    posted: "2 days ago",
-    description:
-      "We're looking for an experienced React developer to help build our new customer portal. You should have strong experience with React, TypeScript, and responsive design.",
-    skills: ["React", "TypeScript", "CSS", "Responsive Design"],
-    saved: false,
-  },
-  {
-    id: 2,
-    title: "WordPress Website Designer",
-    company: "CreativeMinds Agency",
-    location: "Remote",
-    type: "Fixed-price",
-    rate: "$2,000-3,000",
-    posted: "5 hours ago",
-    description:
-      "Need a talented WordPress designer to create a professional website for a local restaurant. Should include online ordering functionality and mobile responsiveness.",
-    skills: ["WordPress", "UI/UX", "PHP", "JavaScript"],
-    saved: true,
-  },
-  {
-    id: 3,
-    title: "Full Stack Developer",
-    company: "StartupBoost",
-    location: "New York, NY (Hybrid)",
-    type: "Contract",
-    rate: "$50-70/hr",
-    posted: "1 week ago",
-    description:
-      "Join our team to help build our SaaS platform. We're looking for a full stack developer with experience in React, Node.js, and MongoDB.",
-    skills: ["React", "Node.js", "MongoDB", "Express"],
-    saved: false,
-  },
-  {
-    id: 4,
-    title: "Mobile App Developer (iOS)",
-    company: "AppWorks Digital",
-    location: "Remote",
-    type: "Contract",
-    rate: "$45-65/hr",
-    posted: "3 days ago",
-    description:
-      "Experienced iOS developer needed for an ongoing project. Must have Swift experience and a portfolio of published apps.",
-    skills: ["Swift", "iOS", "Xcode", "UI Design"],
-    saved: false,
-  },
-  {
-    id: 5,
-    title: "Content Writer - Technology",
-    company: "TechBlog Media",
-    location: "Remote",
-    type: "Fixed-price",
-    rate: "$200-500 per article",
-    posted: "1 day ago",
-    description:
-      "Looking for a technology writer to create engaging blog posts about the latest tech trends. Must have excellent research skills and SEO knowledge.",
-    skills: ["Content Writing", "SEO", "Research", "Technology"],
-    saved: false,
-  },
-  {
-    id: 6,
-    title: "UX/UI Designer",
-    company: "DesignPro Agency",
-    location: "San Francisco, CA (On-site)",
-    type: "Full-time",
-    rate: "$80-100k/year",
-    posted: "4 days ago",
-    description:
-      "Join our design team to create beautiful, user-friendly interfaces for our clients. Must have a strong portfolio and experience with Figma and Adobe Creative Suite.",
-    skills: ["UI Design", "UX Research", "Figma", "Adobe XD"],
-    saved: true,
-  },
-]
+// const JOBS = [
+//   {
+//     id: 1,
+//     title: "Frontend React Developer",
+//     company: "TechSolutions Inc.",
+//     location: "Remote",
+//     type: "Contract",
+//     rate: "$40-60/hr",
+//     posted: "2 days ago",
+//     description:
+//       "We're looking for an experienced React developer to help build our new customer portal. You should have strong experience with React, TypeScript, and responsive design.",
+//     skills: ["React", "TypeScript", "CSS", "Responsive Design"],
+//     saved: false,
+//   },
+//   {
+//     id: 2,
+//     title: "WordPress Website Designer",
+//     company: "CreativeMinds Agency",
+//     location: "Remote",
+//     type: "Fixed-price",
+//     rate: "$2,000-3,000",
+//     posted: "5 hours ago",
+//     description:
+//       "Need a talented WordPress designer to create a professional website for a local restaurant. Should include online ordering functionality and mobile responsiveness.",
+//     skills: ["WordPress", "UI/UX", "PHP", "JavaScript"],
+//     saved: true,
+//   },
+//   {
+//     id: 3,
+//     title: "Full Stack Developer",
+//     company: "StartupBoost",
+//     location: "New York, NY (Hybrid)",
+//     type: "Contract",
+//     rate: "$50-70/hr",
+//     posted: "1 week ago",
+//     description:
+//       "Join our team to help build our SaaS platform. We're looking for a full stack developer with experience in React, Node.js, and MongoDB.",
+//     skills: ["React", "Node.js", "MongoDB", "Express"],
+//     saved: false,
+//   },
+//   {
+//     id: 4,
+//     title: "Mobile App Developer (iOS)",
+//     company: "AppWorks Digital",
+//     location: "Remote",
+//     type: "Contract",
+//     rate: "$45-65/hr",
+//     posted: "3 days ago",
+//     description:
+//       "Experienced iOS developer needed for an ongoing project. Must have Swift experience and a portfolio of published apps.",
+//     skills: ["Swift", "iOS", "Xcode", "UI Design"],
+//     saved: false,
+//   },
+//   {
+//     id: 5,
+//     title: "Content Writer - Technology",
+//     company: "TechBlog Media",
+//     location: "Remote",
+//     type: "Fixed-price",
+//     rate: "$200-500 per article",
+//     posted: "1 day ago",
+//     description:
+//       "Looking for a technology writer to create engaging blog posts about the latest tech trends. Must have excellent research skills and SEO knowledge.",
+//     skills: ["Content Writing", "SEO", "Research", "Technology"],
+//     saved: false,
+//   },
+//   {
+//     id: 6,
+//     title: "UX/UI Designer",
+//     company: "DesignPro Agency",
+//     location: "San Francisco, CA (On-site)",
+//     type: "Full-time",
+//     rate: "$80-100k/year",
+//     posted: "4 days ago",
+//     description:
+//       "Join our design team to create beautiful, user-friendly interfaces for our clients. Must have a strong portfolio and experience with Figma and Adobe Creative Suite.",
+//     skills: ["UI Design", "UX Research", "Figma", "Adobe XD"],
+//     saved: true,
+//   },
+// ]
 
 export default function JobPage() {
   const [jobs, setJobs] = useState<Job[]>([])
@@ -114,7 +114,7 @@ export default function JobPage() {
   useEffect(() => {
     async function fetchJobs() {
       try {
-        const response = await fetch("http://localhost:8080/api/jobs")
+        const response = await fetch("http://localhost:8080/api/jobs/current")
         const data = await response.json()
 
         if (Array.isArray(data.data)) {
@@ -143,7 +143,6 @@ export default function JobPage() {
     : jobs.filter((job) => {
         const matchesSearch =
           job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          job.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
           job.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
           job.requiredSkills.some((skill) =>
             skill.toLowerCase().includes(searchTerm.toLowerCase())
@@ -297,7 +296,7 @@ export default function JobPage() {
                               <h3 className="text-lg font-medium text-gray-900 hover:text-primary">
                                 <a href="#">{job.title}</a>
                               </h3>
-                              <p className="mt-1 text-sm text-gray-500">{job.company}</p>
+                              {/* <p className="mt-1 text-sm text-gray-500">{job.company}</p> */}
                             </div>
                             {/* <button className="text-gray-400 hover:text-primary" onClick={() => toggleSaved(job.id)}>
                               <BookmarkIcon className={`h-5 w-5 ${job.saved ? "fill-primary text-primary" : ""}`} />

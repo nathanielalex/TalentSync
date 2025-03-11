@@ -12,6 +12,17 @@ export const getJobs = async (req, res) => {
   }
 };
 
+export const getCurrentJobs = async (req, res) => {
+  try {
+    const jobs = await Job.find({ isActive: true }); 
+    res.status(200).json({ success: true, data: jobs });
+  } catch (error) {
+    console.error("Error in fetching jobs: ", error.message);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+
 export const getJobById = async (req, res) => {
   try {
     const jobId = req.params.id;  
@@ -34,7 +45,7 @@ export const createJob = async (req, res) => {
   const job = req.body;
 
   // fields validation
-  if (!job.title || !job.company || !job.postedAt || !job.location || !job.salary || !job.description || !job.requiredSkills || !job.skillLevels) {
+  if (!job.title || !job.postedBy || !job.postedAt || !job.location || !job.salary || !job.description || !job.requiredSkills) {
     return res.status(400).json({ success: false, message: "Please provide all required fields" });
   }
 

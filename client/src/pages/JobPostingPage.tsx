@@ -8,6 +8,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Slider } from "@/components/ui/slider"
 import { PlusIcon, XIcon, BriefcaseIcon } from "lucide-react"
 import Layout from "@/components/Layout"
+import axios from "axios"
+import { useAuth } from "@/context/AuthContext"
 
 // Sample skill suggestions
 const SKILL_SUGGESTIONS = [
@@ -19,25 +21,32 @@ const SKILL_SUGGESTIONS = [
 interface FormData {
   title: string
   description: string
-  skills: string[]
-  skillInput: string
-  experienceLevel: string
-  budget: number
+  requiredSkills: string[]
+  salary: number
+  location: string
 }
 
 export default function SimplifiedJobPostingForm() {
   const [formData, setFormData] = useState<FormData>({
     title: "",
     description: "",
-    skills: [],
-    skillInput: "",
-    experienceLevel: "",
-    budget: 500,
+    requiredSkills: [],
+    salary: 500,
+    location: ""
   })
+  const [skillInput, setSkillInput] = useState('')
+  const { userId } = useAuth();
 
   // Filtered skill suggestions based on input
   const [filteredSkills, setFilteredSkills] = useState<string[]>([])
   const [showSkillSuggestions, setShowSkillSuggestions] = useState<boolean>(false)
+
+  const jobPostingData = {
+    ...formData,
+    postedAt: new Date().toISOString(), 
+    postedBy: userId,
+    isActive: true
+  };
 
   // Handle text input changes
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -48,7 +57,8 @@ export default function SimplifiedJobPostingForm() {
   // Handle skill input
   const handleSkillInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
-    setFormData({ ...formData, skillInput: value })
+    // setFormData({ ...formData, skillInput: value })
+    setSkillInput(value)
 
     if (value.trim()) {
       const filtered = SKILL_SUGGESTIONS.filter((skill) => skill.toLowerCase().includes(value.toLowerCase()))
@@ -61,12 +71,12 @@ export default function SimplifiedJobPostingForm() {
 
   // Add a skill
   const addSkill = (skill: string) => {
-    if (skill.trim() && !formData.skills.includes(skill)) {
+    if (skill.trim() && !formData.requiredSkills.includes(skill)) {
       setFormData({
         ...formData,
-        skills: [...formData.skills, skill],
-        skillInput: "",
+        requiredSkills: [...formData.requiredSkills, skill],
       })
+      setSkillInput("")
     }
     setShowSkillSuggestions(false)
   }
@@ -75,7 +85,7 @@ export default function SimplifiedJobPostingForm() {
   const removeSkill = (skill: string) => {
     setFormData({
       ...formData,
-      skills: formData.skills.filter((s) => s !== skill),
+      requiredSkills: formData.requiredSkills.filter((s) => s !== skill),
     })
   }
 
@@ -83,16 +93,23 @@ export default function SimplifiedJobPostingForm() {
   const handleBudgetChange = (value: number[]) => {
     setFormData({
       ...formData,
-      budget: value[0]
+      salary: value[0]
     })
   }
 
   // Handle form submission
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault()
-    // In a real app, this would submit the job posting
-    alert("Your job has been posted successfully!")
-    console.log(formData)
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+
+    try {
+      console.log(jobPostingData)
+      const response = await axios.post('http://localhost:8080/api/jobs/', jobPostingData);
+      alert('Your job has been posted successfully!');
+      console.log(response.data);
+    } catch (error) {
+      console.error('Error posting the job:', error);
+      alert('There was an error posting your job. Please try again.');
+    }
   }
 
   return (
@@ -145,6 +162,20 @@ export default function SimplifiedJobPostingForm() {
                     required
                   />
                 </div>
+                
+                <div>
+                  <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
+                    Location <span className="text-red-500">*</span>
+                  </label>
+                  <Input
+                    id="location"
+                    name="location"
+                    placeholder="e.g., Remote"
+                    value={formData.location}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </div>
 
                 {/* Required Skills */}
                 <div>
@@ -157,12 +188,12 @@ export default function SimplifiedJobPostingForm() {
                         type="text"
                         placeholder="Add skills (e.g., JavaScript, WordPress)"
                         className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
-                        value={formData.skillInput}
+                        value={skillInput}
                         onChange={handleSkillInputChange}
                         onKeyDown={(e) => {
                           if (e.key === "Enter") {
                             e.preventDefault()
-                            addSkill(formData.skillInput)
+                            addSkill(skillInput)
                           }
                         }}
                       />
@@ -170,7 +201,7 @@ export default function SimplifiedJobPostingForm() {
                         type="button"
                         variant="ghost"
                         className="h-9 px-3"
-                        onClick={() => addSkill(formData.skillInput)}
+                        onClick={() => addSkill(skillInput)}
                       >
                         <PlusIcon className="h-4 w-4" />
                       </Button>
@@ -193,9 +224,9 @@ export default function SimplifiedJobPostingForm() {
                     )}
                   </div>
 
-                  {formData.skills.length > 0 && (
+                  {formData.requiredSkills.length > 0 && (
                     <div className="flex flex-wrap gap-2 mt-3">
-                      {formData.skills.map((skill) => (
+                      {formData.requiredSkills.map((skill) => (
                         <Badge key={skill} variant="secondary" className="pl-2 pr-1 py-1 flex items-center">
                           {skill}
                           <button
@@ -211,27 +242,6 @@ export default function SimplifiedJobPostingForm() {
                   )}
                 </div>
 
-                {/* Experience Level */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Experience Level <span className="text-red-500">*</span>
-                  </label>
-                  <Select
-                    value={formData.experienceLevel}
-                    onValueChange={(value: string) => setFormData({ ...formData, experienceLevel: value })}
-                    required
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select experience level" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="entry">Entry Level (0-2 years)</SelectItem>
-                      <SelectItem value="intermediate">Intermediate (2-5 years)</SelectItem>
-                      <SelectItem value="expert">Expert (5+ years)</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
                 {/* Budget Range */}
                 <div>
                   <div className="flex items-center justify-between mb-1">
@@ -239,12 +249,12 @@ export default function SimplifiedJobPostingForm() {
                       Budget Range <span className="text-red-500">*</span>
                     </label>
                     <div className="text-sm font-medium">
-                      ${formData.budget}
+                      ${formData.salary}
                     </div>
                   </div>
                   <div className="px-2 pt-2">
                     <Slider
-                      defaultValue={[formData.budget]}
+                      defaultValue={[formData.salary]}
                       max={5000}
                       step={100}
                       onValueChange={handleBudgetChange}

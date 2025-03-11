@@ -101,13 +101,13 @@ const JOB = {
 const initialJob: Job = {
   _id: "1", // Example MongoDB ID
   title: "Frontend Developer",
-  company: "Tech Solutions Inc.",
   postedAt: "2025-03-09T12:00:00Z", // Example date format
   location: "Remote",
   salary: "$80,000 - $100,000",
   description: "We are looking for a skilled Frontend Developer to join our team and work on exciting projects.",
   requiredSkills: ["JavaScript", "React", "CSS", "HTML"],
-  skillLevels: [5, 4, 3, 3] // Example skill levels for each skill (scale 1-5)
+  postedBy: "",
+  isActive: false
 };
 
 
@@ -209,7 +209,7 @@ export default function JobDetailPage() {
                     {/* <AvatarImage src={job.companyLogo} alt={job?.company} /> */}
                     {/* <AvatarFallback>{job?.company.charAt(0)}</AvatarFallback> */}
                   </Avatar>
-                  <span className="text-gray-700">{job?.company}</span>
+                  {/* <span className="text-gray-700">{job?.company}</span> */}
                 </div>
 
                 <div className="mt-4 flex flex-wrap gap-4">

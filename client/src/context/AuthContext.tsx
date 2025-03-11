@@ -27,7 +27,7 @@ interface AuthProviderProps {
 // AuthProvider component to wrap around the app
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [authData, setAuthData] = useState<AuthState>({
-    isAuthenticated: false,
+    isAuthenticated: localStorage.getItem('token') !== null,
     token: localStorage.getItem('token') || null,
     role: localStorage.getItem('role') || '',
   });
@@ -65,6 +65,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const login = (token: string, role: string) => {
     setAuthData({ isAuthenticated: true, token, role });
   };
+
+  //debugging
+  // useEffect(() => {
+  //   console.log('Current authData:', authData); 
+  // }, [authData]);
 
   const logout = () => {
     setAuthData({ isAuthenticated: false, token: null, role: '' });

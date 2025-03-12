@@ -213,35 +213,6 @@ export default function JobPage() {
             {/* Filters Sidebar */}
             <aside className={`md:col-span-3 ${mobileFiltersOpen ? "block" : "hidden"} md:block`}>
               <div className="sticky top-20 space-y-6">
-                {/* Job Type Filter */}
-                <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-                  <h3 className="text-lg font-medium text-gray-900 mb-4">Job Type</h3>
-                  <div className="space-y-3">
-                    {["All Types", "Fixed-price", "Hourly", "Contract", "Full-time", "Part-time"].map((type) => (
-                      <div key={type} className="flex items-center">
-                        <Checkbox id={`type-${type}`} />
-                        <label htmlFor={`type-${type}`} className="ml-2 text-sm text-gray-700">
-                          {type}
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Experience Level */}
-                <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-                  <h3 className="text-lg font-medium text-gray-900 mb-4">Experience Level</h3>
-                  <div className="space-y-3">
-                    {["Entry Level", "Intermediate", "Expert"].map((level) => (
-                      <div key={level} className="flex items-center">
-                        <Checkbox id={`level-${level}`} />
-                        <label htmlFor={`level-${level}`} className="ml-2 text-sm text-gray-700">
-                          {level}
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-                </div>
 
                 {/* Skills */}
                 <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">

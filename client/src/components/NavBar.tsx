@@ -25,7 +25,7 @@ const Navbar = () => {
                 Find Work
               </a>
               <a href="/job-posting" className="text-gray-500 hover:text-primary px-3 py-2 text-sm font-medium">
-                Open Job
+                Post Job
               </a>
               <a href="#" className="text-gray-500 hover:text-primary px-3 py-2 text-sm font-medium">
                 About

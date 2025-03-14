@@ -6,6 +6,7 @@ import cors from "cors";
 import authRoutes from "./routes/auth.route.js";
 import jobRoutes from "./routes/job.route.js";
 import userRoutes from "./routes/user.route.js";
+import applicationRoutes from "./routes/application.route.js";
 
 dotenv.config();
 
@@ -28,6 +29,8 @@ app.use('/api/auth', authRoutes);
 app.use("/api/jobs", jobRoutes);
 
 app.use("/api/seeker-profile", userRoutes);
+
+app.use("/api/application", applicationRoutes);
 
 app.listen(PORT, () => {
   connectDB();

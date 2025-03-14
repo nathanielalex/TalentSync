@@ -29,6 +29,7 @@ import {
 import { Link, useParams } from "react-router-dom"
 import { Job } from "@/shared/schema"
 import Layout from "@/components/Layout"
+import axios from "axios"
 
 // Sample job data
 const JOB = {
@@ -113,9 +114,9 @@ const initialJob: Job = {
 
 export default function JobDetailPage() {
 //   const [job, setJob] = useState(JOB)
-  const [isApplying, setIsApplying] = useState(false)
-  const [coverLetter, setCoverLetter] = useState("")
-  const [bidAmount, setBidAmount] = useState("")
+  // const [isApplying, setIsApplying] = useState(false)
+  // const [coverLetter, setCoverLetter] = useState("")
+  // const [bidAmount, setBidAmount] = useState("")
   const { id } = useParams();
   const [job, setJob] = useState<Job>(initialJob);
   const [loading, setLoading] = useState(true);
@@ -136,19 +137,16 @@ export default function JobDetailPage() {
     fetchJobDetails();
   }, [id]); 
 
-  // Toggle saved status
-//   const toggleSaved = () => {
-//     setJob({ ...job, saved: !job.saved })
-//   }
+  const handleClick = async() => {
+    try {
+      // Make a POST request to apply for the job
+      await axios.post(`http://localhost:8080/api/jobs/${id}/apply`);
 
-  // Handle apply form submission
-  const handleApply = (e: React.FormEvent) => {
-    e.preventDefault()
-    // In a real app, this would submit the application
-    alert("Your application has been submitted!")
-    setIsApplying(false)
-    setCoverLetter("")
-    setBidAmount("")
+      alert("You have applied for the job!");
+    } catch (error) {
+      console.log(error)
+    }
+    
   }
 
   if (loading) {
@@ -161,7 +159,6 @@ export default function JobDetailPage() {
 
   return (
     <Layout>
-
       <div className="min-h-screen bg-gray-50">
 
         {/* Main Content */}
@@ -293,117 +290,15 @@ export default function JobDetailPage() {
                   </TabsContent>
                 </Tabs>
               </div>
-
-              {/* Apply Section */}
-              {!isApplying ? (
-                <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
-                  <h2 className="text-lg font-medium text-gray-900">Interested in this job?</h2>
-                  <p className="mt-2 text-gray-600">
-                    Submit a proposal to connect with the client and discuss the project details.
-                  </p>
-                  <Button className="mt-4" onClick={() => setIsApplying(true)}>
-                    Apply Now
-                  </Button>
-                </div>
-              ) : (
-                <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
-                  <h2 className="text-lg font-medium text-gray-900">Submit Your Proposal</h2>
-                  <form onSubmit={handleApply} className="mt-4 space-y-4">
-                    <div>
-                      <label htmlFor="bid-amount" className="block text-sm font-medium text-gray-700">
-                        Your Bid Amount 
-                        {/* ({job.type}) */}
-                      </label>
-                      <div className="mt-1 relative rounded-md shadow-sm">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                          <span className="text-gray-500 sm:text-sm">$</span>
-                        </div>
-                        <Input
-                          type="text"
-                          name="bid-amount"
-                          id="bid-amount"
-                          className="pl-7"
-                          placeholder="Enter your bid amount"
-                          value={bidAmount}
-                          onChange={(e) => setBidAmount(e.target.value)}
-                          required
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label htmlFor="cover-letter" className="block text-sm font-medium text-gray-700">
-                        Cover Letter
-                      </label>
-                      <div className="mt-1">
-                        <Textarea
-                          id="cover-letter"
-                          name="cover-letter"
-                          rows={6}
-                          placeholder="Introduce yourself and explain why you're a good fit for this project..."
-                          value={coverLetter}
-                          onChange={(e) => setCoverLetter(e.target.value)}
-                          required
-                        />
-                      </div>
-                    </div>
-
-                    <div className="flex items-center">
-                      <input
-                        id="terms"
-                        name="terms"
-                        type="checkbox"
-                        className="h-4 w-4 text-primary focus:ring-primary border-gray-300 rounded"
-                        required
-                      />
-                      <label htmlFor="terms" className="ml-2 block text-sm text-gray-700">
-                        I understand that submitting a proposal costs 2 connects
-                      </label>
-                    </div>
-
-                    <div className="flex space-x-3">
-                      <Button type="submit">Submit Proposal</Button>
-                      <Button type="button" variant="outline" onClick={() => setIsApplying(false)}>
-                        Cancel
-                      </Button>
-                    </div>
-                  </form>
-                </div>
-              )}
-
-              {/* Similar Jobs */}
-              {/* <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
-                <h2 className="text-lg font-medium text-gray-900 mb-4">Similar Jobs</h2>
-                <div className="space-y-4">
-                  {job.similarJobs.map((similarJob) => (
-                    <div key={similarJob.id} className="border-b border-gray-100 pb-4 last:border-0 last:pb-0">
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <h3 className="text-base font-medium text-gray-900 hover:text-primary">
-                            <a href="#">{similarJob.title}</a>
-                          </h3>
-                          <p className="text-sm text-gray-500">{similarJob.company}</p>
-                          <p className="text-sm text-gray-700 mt-1">{similarJob.rate}</p>
-                          <div className="mt-2 flex flex-wrap gap-2">
-                            {similarJob.skills.slice(0, 3).map((skill) => (
-                              <Badge key={skill} variant="secondary" className="text-xs">
-                                {skill}
-                              </Badge>
-                            ))}
-                            {similarJob.skills.length > 3 && (
-                              <span className="text-xs text-gray-500">+{similarJob.skills.length - 3} more</span>
-                            )}
-                          </div>
-                        </div>
-                        <ChevronRightIcon className="h-5 w-5 text-gray-400" />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <Button variant="outline" className="w-full mt-4">
-                  View More Similar Jobs
+              <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
+                <h2 className="text-lg font-medium text-gray-900">Interested in this job?</h2>
+                <p className="mt-2 text-gray-600">
+                  Submit a proposal to connect with the client and discuss the project details.
+                </p>
+                <Button className="mt-4" onClick={handleClick}>
+                  Apply Now
                 </Button>
-              </div> */}
+              </div>
             </div> 
 
             {/* Sidebar */}
@@ -504,20 +399,6 @@ export default function JobDetailPage() {
                       <p className="text-gray-500">Client was active 2 hours ago</p>
                     </div>
                   </div>
-                </div>
-              </div>
-
-              {/* Contact Client */}
-              <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-6">
-                <h2 className="text-lg font-medium text-gray-900 mb-4">Have Questions?</h2>
-                <p className="text-sm text-gray-600 mb-4">
-                  Contact the client to clarify any details before submitting your proposal.
-                </p>
-                <div className="relative">
-                  <Input placeholder="Type your message..." className="pr-10" />
-                  <button className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-primary">
-                    <SendIcon className="h-5 w-5" />
-                  </button>
                 </div>
               </div>
             </div>

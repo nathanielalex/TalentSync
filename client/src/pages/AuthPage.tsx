@@ -17,6 +17,7 @@ interface FormData {
 
 interface ApiResponse {
   token: string
+  role: string
 }
 
 export default function AuthPage() {
@@ -54,7 +55,8 @@ export default function AuthPage() {
       // Store JWT token in localStorage
       if (response.data.token) {
         localStorage.setItem("token", response.data.token);
-        login(response.data.token);
+        localStorage.setItem("role", response.data.role)
+        login(response.data.token, response.data.role);
       }
       if(isLogin) {
         navigate("/")

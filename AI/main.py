@@ -24,10 +24,8 @@ def check_similarity():
     return jsonify({"similarity_score": round(similarity_score, 2)})
 
 
-
-
 if __name__ == '__main__':
-    app.run(debug=True, port=8080)
+    app.run(debug=True, port=5000)
 
 # {
 #     "cv_text": "Experienced software engineer with expertise in Python, Java, and machine learning.",

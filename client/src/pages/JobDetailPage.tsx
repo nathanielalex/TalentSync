@@ -25,79 +25,21 @@ import {
   MessageSquareIcon,
   SendIcon,
   ChevronRightIcon,
+  CheckCircle,
+  XCircle
 } from "lucide-react"
 import { Link, useParams } from "react-router-dom"
-import { Job } from "@/shared/schema"
+import { Job, User } from "@/shared/schema"
 import Layout from "@/components/Layout"
 import axios from "axios"
-
-// Sample job data
-const JOB = {
-  id: 2,
-  title: "WordPress Website Designer",
-  company: "CreativeMinds Agency",
-  companyLogo: "/placeholder.svg?height=80&width=80",
-  location: "Remote",
-  type: "Fixed-price",
-  rate: "$2,000-3,000",
-  posted: "5 hours ago",
-  deadline: "2 weeks",
-  description: `
-    <p>We are looking for a talented WordPress designer to create a professional website for a local restaurant. The project includes:</p>
-    
-    <ul>
-      <li>Custom WordPress theme development</li>
-      <li>Online ordering functionality</li>
-      <li>Mobile responsive design</li>
-      <li>Menu management system</li>
-      <li>Integration with reservation system</li>
-      <li>SEO optimization</li>
-    </ul>
-    
-    <p>The ideal candidate will have strong experience with WordPress theme development, PHP, JavaScript, and responsive design principles. You should be able to create a visually appealing website that reflects the restaurant's brand and provides a seamless user experience.</p>
-    
-    <p>The project timeline is approximately 4-6 weeks, with the first draft expected within 2 weeks of project start.</p>
-  `,
-  skills: ["WordPress", "UI/UX", "PHP", "JavaScript", "Responsive Design", "WooCommerce"],
-  experience: "Intermediate (2-5 years)",
-  projectLength: "1-3 months",
-  proposals: 12,
-  client: {
-    name: "Sarah Johnson",
-    title: "Marketing Director at CreativeMinds Agency",
-    location: "San Francisco, CA",
-    memberSince: "March 2020",
-    rating: 4.8,
-    reviews: 23,
-    projectsPosted: 35,
-    hireRate: 85,
-    verified: true,
-  },
-  saved: false,
-  similarJobs: [
-    {
-      id: 101,
-      title: "Shopify Store Designer",
-      company: "E-Commerce Solutions",
-      rate: "$1,800-2,500",
-      skills: ["Shopify", "UI/UX", "Liquid", "JavaScript"],
-    },
-    {
-      id: 102,
-      title: "Restaurant Website Development",
-      company: "FoodTech Inc.",
-      rate: "$2,500-3,500",
-      skills: ["WordPress", "PHP", "JavaScript", "API Integration"],
-    },
-    {
-      id: 103,
-      title: "WordPress Theme Customization",
-      company: "WebDesign Pro",
-      rate: "$1,000-1,500",
-      skills: ["WordPress", "CSS", "PHP", "Theme Development"],
-    },
-  ],
-}
+import { useAuth } from "@/context/AuthContext"
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogHeader, 
+  DialogTitle,
+  DialogDescription
+} from '@/components/ui/dialog';
 
 const initialJob: Job = {
   _id: "1", // Example MongoDB ID
@@ -120,6 +62,28 @@ export default function JobDetailPage() {
   const { id } = useParams();
   const [job, setJob] = useState<Job>(initialJob);
   const [loading, setLoading] = useState(true);
+  const { userId } = useAuth()
+  const [cvText, setCvText] = useState('');
+  const [jobDesc, setJobDesc] = useState('');
+  const [userDetails, setUserDetails] = useState<User>();
+  const [similarityScore, setSimilarityScore] = useState(0)
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    async function fetchUserDetails() {
+      try {
+        const response = await fetch(`http://localhost:8080/api/user/${userId}`);
+        const data = await response.json();
+        setUserDetails(data.data);
+      } catch (error) {
+        console.error('Error fetching user details:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchUserDetails();
+  }, [userId]); 
 
   useEffect(() => {
     async function fetchJobDetails() {
@@ -137,17 +101,20 @@ export default function JobDetailPage() {
     fetchJobDetails();
   }, [id]); 
 
-  const handleClick = async() => {
+  const handleClick = async () => {
     try {
-      // Make a POST request to apply for the job
-      await axios.post(`http://localhost:8080/api/jobs/${id}/apply`);
-
-      alert("You have applied for the job!");
+      const response = await axios.post('http://localhost:5000/check_similarity', {
+        cv_text: 'Experienced software engineer with expertise in HTML.',  
+        job_desc: 'Looking for a skilled software engineer with Python and Java knowledge, experience in machine learning.' 
+      });
+      const result = response.data;
+      setSimilarityScore(result.similarity_score);
+      console.log(similarityScore)
+      setIsOpen(true);
     } catch (error) {
-      console.log(error)
+      console.error('Error fetching similarity:', error);
     }
-    
-  }
+  };
 
   if (loading) {
     return (
@@ -405,6 +372,50 @@ export default function JobDetailPage() {
           </div>
         </div>
       </div>
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Job Suitability Result</DialogTitle>
+            <DialogDescription>
+              Based on your CV and job description comparison
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="flex flex-col items-center p-4">
+            {similarityScore > 0.3 ? (
+              <div className="flex flex-col items-center text-center">
+                <CheckCircle className="h-16 w-16 text-green-500 mb-4" />
+                <h3 className="text-xl font-bold text-green-600">
+                  Congratulations!
+                </h3>
+                <p className="text-lg">
+                  You are suitable for this job position.
+                </p>
+                <p className="text-sm text-gray-500 mt-2">
+                  Similarity Score: {similarityScore.toFixed(2)}
+                </p>
+              </div>
+            ) : (
+              <div className="flex flex-col items-center text-center">
+                <XCircle className="h-16 w-16 text-red-500 mb-4" />
+                <h3 className="text-xl font-bold text-red-600">
+                  Not Suitable Yet
+                </h3>
+                <p className="text-lg">
+                  You don't meet the requirements for this job position yet.
+                </p>
+                <p className="text-sm text-gray-500 mt-2">
+                  Similarity Score: {similarityScore.toFixed(2)}
+                </p>
+              </div>
+            )}
+          </div>
+          
+          <div className="flex justify-end mt-4">
+            <Button onClick={() => setIsOpen(false)}>Close</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </Layout>
   )
 }

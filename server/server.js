@@ -28,7 +28,7 @@ app.use('/api/auth', authRoutes);
 
 app.use("/api/jobs", jobRoutes);
 
-app.use("/api/seeker-profile", userRoutes);
+app.use("/api/user", userRoutes);
 
 app.use("/api/application", applicationRoutes);
 

@@ -215,7 +215,6 @@ export default function FreelancerProfileSimple() {
   //   })
   // }
 
-  // Add new experience
   const addExperience = () => {
     if (newExperience.title && newExperience.company && newExperience.startDate) {
       const newId = profileData.experience.length > 0 ? Math.max(...profileData.experience.map((exp) => exp.id)) + 1 : 1
@@ -245,7 +244,6 @@ export default function FreelancerProfileSimple() {
     }
   }
 
-  // Remove experience
   const removeExperience = (id: number) => {
     setProfileData({
       ...profileData,
@@ -253,7 +251,6 @@ export default function FreelancerProfileSimple() {
     })
   }
 
-  // Handle new education input change
   const handleEducationChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setNewEducation({ ...newEducation, [name]: value })
@@ -288,7 +285,6 @@ export default function FreelancerProfileSimple() {
     }
   }
 
-  // Remove education
   const removeEducation = (id: number) => {
     setProfileData({
       ...profileData,
@@ -296,21 +292,12 @@ export default function FreelancerProfileSimple() {
     })
   }
 
-  // Toggle profile visibility
-  // const toggleVisibility = (checked: boolean) => {
-  //   setProfileData({
-  //     ...profileData,
-  //     visibility: checked,
-  //   })
-  // }
-
   const { userId } = useAuth();
 
-  // Handle form submission
   const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault()
     try {
-      const response = await axios.put(`/api/seeker-profile/${userId}`, profileData);
+      const response = await axios.put(`/api/user/${userId}`, profileData);
       
       if (response.status === 200) {
         alert("Profile saved successfully!");

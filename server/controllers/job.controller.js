@@ -94,3 +94,26 @@ export const deleteJob = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
+
+// Find jobs by recruiter
+export const getJobsByRecruiter = async (req, res) => {
+  const recruiterId = req.params.recruiterId;  // Assuming recruiterId is passed as a URL parameter
+  // Check if recruiterId is a valid MongoDB ObjectId
+  if (!mongoose.Types.ObjectId.isValid(recruiterId)) {
+    return res.status(400).json({ success: false, message: "Invalid recruiter ID" });
+  }
+
+  try {
+    // Find all jobs posted by the recruiter
+    const jobs = await Job.find({ postedBy: recruiterId });
+
+    if (jobs.length === 0) {
+      return res.status(404).json({ success: false, message: "No jobs found for this recruiter" });
+    }
+
+    res.status(200).json({ success: true, data: jobs });
+  } catch (error) {
+    console.error("Error in fetching jobs by recruiter: ", error.message);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};

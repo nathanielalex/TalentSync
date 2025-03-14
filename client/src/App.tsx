@@ -11,6 +11,7 @@ import JobPage from './pages/JobsPage'
 import JobDetailPage from './pages/JobDetailPage'
 import JobPostingPage from './pages/JobPostingPage'
 import SeekerProfilePage from './pages/SeekerProfilePage'
+import RecruiterJobListingPage from './pages/RecruiterJobListingPage'
 
 function App() {
   return (
@@ -24,7 +25,7 @@ function App() {
             <Route path="/jobs" element={<JobPage />} />
             <Route path="/jobs/:id" element={<JobDetailPage />} />
             <Route path="/seeker-profile" element={<SeekerProfilePage />} />
-            
+            <Route path="/recruiter-jobs/:recruiterId" element={<RecruiterJobListingPage />} />
             
             {/* private route */}
             <Route element={<PrivateRoute />}>

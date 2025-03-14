@@ -10,6 +10,7 @@ import { PlusIcon, XIcon, BriefcaseIcon } from "lucide-react"
 import Layout from "@/components/Layout"
 import axios from "axios"
 import { useAuth } from "@/context/AuthContext"
+import { useNavigate } from "react-router-dom"
 
 // Sample skill suggestions
 const SKILL_SUGGESTIONS = [
@@ -36,6 +37,7 @@ export default function SimplifiedJobPostingForm() {
   })
   const [skillInput, setSkillInput] = useState('')
   const { userId } = useAuth();
+  const navigate = useNavigate();
 
   // Filtered skill suggestions based on input
   const [filteredSkills, setFilteredSkills] = useState<string[]>([])
@@ -105,7 +107,8 @@ export default function SimplifiedJobPostingForm() {
       console.log(jobPostingData)
       const response = await axios.post('http://localhost:8080/api/jobs/', jobPostingData);
       alert('Your job has been posted successfully!');
-      console.log(response.data);
+      // console.log(response.data);
+      navigate(`/recruiter-jobs/${userId}`)
     } catch (error) {
       console.error('Error posting the job:', error);
       alert('There was an error posting your job. Please try again.');

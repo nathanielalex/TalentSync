@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import AuthButtons from "@/components/AuthButtons"
 import { BriefcaseIcon, MenuIcon, X } from "lucide-react"
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const { userId } = useAuth()
 
   return (
     <nav className="fixed w-full bg-white/80 backdrop-blur-sm border-b border-gray-200 z-50">
@@ -18,15 +22,18 @@ const Navbar = () => {
 
             {/* Desktop Navigation Links */}
             <div className="hidden md:ml-12 md:flex md:space-x-8">
-              <a href="#" className="text-gray-900 hover:text-primary px-3 py-2 text-sm font-medium">
+              <a href="/" className="text-gray-900 hover:text-primary px-3 py-2 text-sm font-medium">
                 Home
               </a>
               <a href="/jobs" className="text-gray-500 hover:text-primary px-3 py-2 text-sm font-medium">
                 Find Work
               </a>
-              <a href="/job-posting" className="text-gray-500 hover:text-primary px-3 py-2 text-sm font-medium">
-                Post Job
-              </a>
+              <Link
+                to={`/recruiter-jobs/${userId}`}
+                className="text-gray-500 hover:text-primary px-3 py-2 text-sm font-medium"
+              >
+                My Jobs
+              </Link>
               <a href="#" className="text-gray-500 hover:text-primary px-3 py-2 text-sm font-medium">
                 About
               </a>

@@ -62,7 +62,7 @@ const SKILL_SUGGESTIONS = [
   "Machine Learning",
 ]
 
-export default function FreelancerProfileSimple() {
+export default function SeekerProfilePage() {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [skillInput, setSkillInput] = useState('')
   const [profileData, setProfileData] = useState({
@@ -136,15 +136,15 @@ export default function FreelancerProfileSimple() {
           setUserDetails(data);
           console.log(data)
           setProfileData({
-            fullName: data.data.seekerDetails.fullName || profileData.fullName,
-            profileImage: data.data.profileImage || profileData.profileImage,
-            headline: data.data.headline || profileData.headline,
-            location: data.data.location || profileData.location,
-            hourlyRate: data.data.hourlyRate || profileData.hourlyRate,
-            overview: data.data.overview || profileData.overview,
-            skills: data.data.skills || profileData.skills,
-            experience: data.data.experience || profileData.experience,
-            education: data.data.education || profileData.education,
+            fullName: data.seekerDetails.fullName || profileData.fullName,
+            profileImage: data.seekerDetails.profileImage || profileData.profileImage,
+            headline: data.seekerDetails.headline || profileData.headline,
+            location: data.seekerDetails.location || profileData.location,
+            hourlyRate: data.seekerDetails.hourlyRate || profileData.hourlyRate,
+            overview: data.seekerDetails.overview || profileData.overview,
+            skills: data.seekerDetails.skills || profileData.skills,
+            experience: data.seekerDetails.experience || profileData.experience,
+            education: data.seekerDetails.education || profileData.education,
           });
         } catch (error) {
           console.error('Error fetching user details:', error);
@@ -313,7 +313,7 @@ export default function FreelancerProfileSimple() {
   const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault()
     try {
-      const response = await axios.put(`/api/user/${userId}`, profileData);
+      const response = await axios.put(`http://localhost:8080/api/user/seeker/${userId}`, profileData);
       
       if (response.status === 200) {
         alert("Profile saved successfully!");
@@ -322,7 +322,7 @@ export default function FreelancerProfileSimple() {
       console.error("Error saving profile", error);
       alert("There was an error saving your profile.");
     }
-    alert("Profile saved successfully!")
+    // alert("Profile saved successfully!")
   }
 
   return (
@@ -655,8 +655,8 @@ export default function FreelancerProfileSimple() {
 
                   <div className="space-y-4">
                     {profileData.experience.length > 0 ? (
-                      profileData.experience.map((exp) => (
-                        <div key={exp.id} className="p-4 border border-gray-200 rounded-md">
+                      profileData.experience.map((exp, index) => (
+                        <div key={exp.id || index} className="p-4 border border-gray-200 rounded-md">
                           <div className="flex justify-between">
                             <div>
                               <h3 className="text-base font-medium text-gray-900">{exp.title}</h3>
@@ -813,8 +813,8 @@ export default function FreelancerProfileSimple() {
 
                   <div className="space-y-4">
                     {profileData.education.length > 0 ? (
-                      profileData.education.map((edu) => (
-                        <div key={edu.id} className="p-4 border border-gray-200 rounded-md">
+                      profileData.education.map((edu, index) => (
+                        <div key={edu.id | index} className="p-4 border border-gray-200 rounded-md">
                           <div className="flex justify-between">
                             <div>
                               <h3 className="text-base font-medium text-gray-900">{edu.degree}</h3>

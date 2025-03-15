@@ -293,13 +293,13 @@ export default function FillSeekerProfilePage() {
       
       if (response.status === 200) {
         setIsNew(false)
-        // alert("Profile saved successfully!");
+        alert("Profile saved successfully!");
       }
     } catch (error) {
       console.error("Error saving profile", error);
       alert("There was an error saving your profile.");
     }
-    alert("Profile saved successfully!")
+    // alert("Profile saved successfully!")
   }
 
   return (

@@ -123,7 +123,6 @@ export default function SeekerProfilePage() {
 
   const [showAddExperience, setShowAddExperience] = useState(false)
   const [showAddEducation, setShowAddEducation] = useState(false)
-  const [profileCompleteness, setProfileCompleteness] = useState(75)
   const [userDetails, setUserDetails] = useState<User>();
   const [loading, setLoading] = useState(true);
   const { userId } = useAuth();

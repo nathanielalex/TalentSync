@@ -37,9 +37,17 @@ const Navbar = () => {
                   My Jobs
                 </Link>
               )}
-              <a href="#" className="text-gray-500 hover:text-primary px-3 py-2 text-sm font-medium">
+              {authData.role === 'seeker' && userId && (
+                <Link
+                  to={`/jobs-applied/${userId}`}
+                  className="text-gray-500 hover:text-primary px-3 py-2 text-sm font-medium"
+                >
+                  My Jobs
+                </Link>
+              )}
+              {/* <a href="#" className="text-gray-500 hover:text-primary px-3 py-2 text-sm font-medium">
                 About
-              </a>
+              </a> */}
             </div>
           </div>
 

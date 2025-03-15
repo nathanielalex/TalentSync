@@ -10,11 +10,16 @@ const AuthButtons: React.FC = () => {
   function handleClick() {
     navigate("/login");
   }
+
+  function handleLogout(){
+    logout()
+    navigate("/");
+  }
   
   return (
     <div>
       {authData.isAuthenticated ? (
-        <Button onClick={logout}>Logout</Button>
+        <Button onClick={handleLogout}>Logout</Button>
       ) : (
         <Button variant="outline" onClick={handleClick}>Login</Button>
       )}

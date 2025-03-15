@@ -11,6 +11,8 @@ import {
   ClockIcon,
   UserIcon,
   SearchIcon,
+  LocateIcon,
+  BriefcaseBusinessIcon,
 } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Application } from "@/shared/schema";
@@ -19,20 +21,16 @@ import Layout from "@/components/Layout";
 
 type Status = "applied" | "interview" | "hired" | "rejected";
 
-export default function ApplicantListPage() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
-  const [sortBy, setSortBy] = useState("date");
+export default function JobsAppliedPage() {
   const { id } = useParams();
   const [applicants, setApplicants] = useState<Application[]>([]);
   const [loading, setLoading] = useState(true);
-  const [status, setStatus] = useState<Status>("applied");
-  const [statusApplicant, setStatusApplicant] = useState<Status>("applied");
-  const navigate = useNavigate();
+
+
   useEffect(() => {
     async function fetchApplicants() {
       try {
-        const response = await fetch(`http://localhost:8080/api/application/${id}/applicants`);
+        const response = await fetch(`http://localhost:8080/api/application/${id}/jobs`);
         const data = await response.json();
         setApplicants(data);
       } catch (error) {
@@ -44,40 +42,7 @@ export default function ApplicantListPage() {
 
     fetchApplicants();
   }, [id]);
-
-  const handleStatusChange = (value: Status) => {
-    setStatus(value); // Update the state with the selected status
-    setStatusApplicant(value); // Track the status of the specific applicant
-  };
-
-  const handleViewProfile = (id: string) => {
-    console.log('click view')
-    navigate(`/view-profile/${id}`)
-  }
-
-  const handleUpdate = async (applicationId: string) => {
-    try {
-      const response = await axios.put(
-        `http://localhost:8080/api/application/${applicationId}/update-status`,
-        { status }
-      );
-
-      if (response.status === 200) {
-        // console.log(`Application status updated to: ${response.data.application.status}`);
-
-        // Update applicant status locally after API update
-        setApplicants((prevApplicants) =>
-          prevApplicants.map((applicant) =>
-            applicant._id === applicationId
-              ? { ...applicant, status: statusApplicant }
-              : applicant
-          )
-        );
-      }
-    } catch (error) {
-      console.error("Error updating status:", error);
-    }
-  };
+  
 
   const formatTimeAgo = (dateString: string) => {
     const now = new Date();
@@ -115,16 +80,16 @@ export default function ApplicantListPage() {
                       {/* Applicant Info */}
                       <div className="flex items-center flex-1">
                         <Avatar className="h-12 w-12 mr-4">
-                          <AvatarFallback>{applicant.fullName.charAt(0)}</AvatarFallback>
+                          <AvatarFallback>{applicant.jobTitle.charAt(0)}</AvatarFallback>
                         </Avatar>
                         <div>
                           <div className="flex items-center">
-                            <h3 className="text-lg font-medium text-gray-900">{applicant.fullName}</h3>
+                            <h3 className="text-lg font-medium text-gray-900">{applicant.jobTitle}</h3>
                           </div>
                           <div className="flex flex-col sm:flex-row sm:items-center text-sm text-gray-500 gap-2 sm:gap-4">
                             <span className="flex items-center">
-                              <MailIcon className="h-3 w-3 mr-1" />
-                              {applicant.email}
+                              <LocateIcon className="h-3 w-3 mr-1" />
+                              {applicant.jobLocation}
                             </span>
                             <span className="flex items-center">
                               <ClockIcon className="h-3 w-3 mr-1" />
@@ -151,31 +116,13 @@ export default function ApplicantListPage() {
                         </Badge>
                       </div>
 
-                      {/* Actions */}
-                      <div className="flex space-x-2">
-                        <Button variant="outline" size="sm" onClick={() => handleViewProfile(applicant.applicant)}>
-                          View
-                        </Button>
-                        <Select value={status} onValueChange={handleStatusChange}>
-                          <SelectTrigger className="w-[130px] h-9">
-                            <SelectValue placeholder="Actions" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="interview">Interview</SelectItem>
-                            <SelectItem value="hired">Hired</SelectItem>
-                            <SelectItem value="rejected">Rejected</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <Button size="sm" onClick={() => handleUpdate(applicant._id)}>
-                          Update
-                        </Button>
-                      </div>
+                      
                     </div>
 
                     {/* Skills */}
                     <div className="mt-4">
                       <div className="flex flex-wrap gap-2">
-                        {applicant.skills.map((skill) => (
+                        {applicant.requiredSkills.map((skill) => (
                           <Badge key={skill} variant="outline">
                             {skill}
                           </Badge>

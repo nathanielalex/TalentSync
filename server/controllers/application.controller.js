@@ -92,3 +92,21 @@ export const updateStatusApplication = async (req, res) => {
     return res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
+
+export const getApplicationsByApplicant = async (req, res) => {
+  const applicantId = req.params.applicantId;
+
+  try {
+    const applications = await Application.find({ applicant: applicantId });
+
+    if (applications.length === 0) {
+      return res.status(404).json({ message: 'No applications found for this applicant' });
+    }
+
+    return res.status(200).json(applications);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
+

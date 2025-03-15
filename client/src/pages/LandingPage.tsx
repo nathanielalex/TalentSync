@@ -11,7 +11,7 @@ export default function LandingPage() {
   
   const navigate = useNavigate();
   function handleClick() {
-    navigate("/dashboard");
+    navigate("/jobs");
   }
 
   return (
@@ -32,11 +32,8 @@ export default function LandingPage() {
                   Streamline your hiring process and get work done faster.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3">
-                  <Button size="lg" asChild>
-                    <Link to="/dashboard">Find Talent</Link>
-                  </Button>
-                  <Button size="lg" variant="outline" asChild>
-                    <Link to="/register">Become a Freelancer</Link>
+                  <Button size="lg" onClick={handleClick} className="z-10">
+                    Find Talent
                   </Button>
                 </div>
                 <div className="flex items-center gap-4 pt-4">
@@ -165,9 +162,7 @@ export default function LandingPage() {
                   </div>
                   <h3 className="mt-6 text-xl font-bold">{step.title}</h3>
                   <p className="mt-2 text-center text-muted-foreground">{step.description}</p>
-                  {index < 2 && (
-                    <div className="absolute left-1/2 top-8 hidden w-full -translate-y-1/2 border-t border-dashed border-muted-foreground md:block"></div>
-                  )}
+
                 </div>
               ))}
             </div>
@@ -234,37 +229,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="py-20">
-          <div className="container px-4 md:px-6">
-            <div className="rounded-xl bg-primary p-8 md:p-12 shadow-lg">
-              <div className="grid gap-6 md:grid-cols-2 md:gap-12 items-center">
-                <div className="space-y-4">
-                  <h2 className="text-3xl font-bold tracking-tighter text-primary-foreground sm:text-4xl">
-                    Ready to transform how you work?
-                  </h2>
-                  <p className="text-primary-foreground/90 md:text-xl">
-                    Join thousands of businesses and freelancers already using TalentSync to connect, collaborate, and
-                    succeed.
-                  </p>
-                </div>
-                <div className="flex flex-col gap-3 min-[400px]:flex-row md:justify-end">
-                  <Button size="lg" variant="secondary" asChild>
-                    <Link to="/dashboard">Find Talent</Link>
-                  </Button>
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="bg-transparent text-primary-foreground border-primary-foreground hover:bg-primary-foreground hover:text-primary"
-                    asChild
-                  >
-                    <Link to="/register">Become a Freelancer</Link>
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        
       </main>
       </div>
     </Layout>

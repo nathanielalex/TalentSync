@@ -1,4 +1,4 @@
-import { BriefcaseIcon } from 'lucide-react';
+import { BriefcaseIcon, Instagram  } from 'lucide-react';
 import { Link } from 'react-router-dom'; 
 
 export default function Footer() {
@@ -15,14 +15,21 @@ export default function Footer() {
               Connecting businesses with top freelance talent worldwide.
             </p>
             <div className="flex gap-4">
-              {["twitter", "facebook", "instagram", "linkedin"].map((social) => (
-                <Link key={social} to={`#${social}`} className="text-muted-foreground hover:text-foreground">
-                  <span className="sr-only">{social}</span>
+                <Link to='#' className="text-muted-foreground hover:text-foreground">
                   <div className="h-6 w-6 rounded-full bg-muted flex items-center justify-center">
-                    <span className="text-xs">{social[0].toUpperCase()}</span>
+                    <img src="https://pixsector.com/cache/200e7bcc/av16efeffeed4418c90c1.png" className='object-cover'></img>
                   </div>
                 </Link>
-              ))}
+                <Link to='#' className="text-muted-foreground hover:text-foreground">
+                  <div className="h-6 w-6 rounded-full bg-muted flex items-center justify-center">
+                    <img src="https://pixsector.com/cache/200e7bcc/av16efeffeed4418c90c1.png"></img>
+                  </div>
+                </Link>
+                <Link to='#' className="text-muted-foreground hover:text-foreground">
+                  <div className="h-6 w-6 rounded-full bg-muted flex items-center justify-center">
+                    <img src="https://pixsector.com/cache/200e7bcc/av16efeffeed4418c90c1.png"></img>
+                  </div>
+                </Link>
             </div>
           </div>
 
@@ -32,15 +39,7 @@ export default function Footer() {
               <li>
                 <Link to="#" className="text-muted-foreground hover:text-foreground">How to Hire</Link>
               </li>
-              <li>
-                <Link to="#" className="text-muted-foreground hover:text-foreground">Talent Marketplace</Link>
-              </li>
-              <li>
-                <Link to="#" className="text-muted-foreground hover:text-foreground">Project Catalog</Link>
-              </li>
-              <li>
-                <Link to="#" className="text-muted-foreground hover:text-foreground">Enterprise Solutions</Link>
-              </li>
+              
             </ul>
           </div>
 
@@ -53,16 +52,11 @@ export default function Footer() {
               <li>
                 <Link to="#" className="text-muted-foreground hover:text-foreground">Create Profile</Link>
               </li>
-              <li>
-                <Link to="#" className="text-muted-foreground hover:text-foreground">Community</Link>
-              </li>
-              <li>
-                <Link to="#" className="text-muted-foreground hover:text-foreground">Skill Tests</Link>
-              </li>
+              
             </ul>
           </div>
 
-          <div className="space-y-4">
+          {/* <div className="space-y-4">
             <h3 className="text-sm font-medium">Resources</h3>
             <ul className="space-y-2 text-sm">
               <li>
@@ -78,7 +72,7 @@ export default function Footer() {
                 <Link to="#" className="text-muted-foreground hover:text-foreground">Resources</Link>
               </li>
             </ul>
-          </div>
+          </div> */}
         </div>
 
         <div className="mt-12 border-t pt-6 flex flex-col md:flex-row justify-between items-center gap-4">

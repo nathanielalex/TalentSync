@@ -1,10 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import './App.css'
 import LandingPage from './pages/LandingPage'
-import AuthPage from './pages/AuthPage'
 import { AuthProvider } from './context/AuthContext'
 import PrivateRoute from './components/PrivateRoute'
-import Dashboard from './pages/dashboard'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import JobPage from './pages/JobsPage'
@@ -42,7 +40,6 @@ function App() {
         {/* private route */}
         <Route element={<PrivateRoute />}>
           <Route path="/job-posting" element={<JobPostingPage />} />
-          <Route path="/dashboard" element={<Dashboard />} />
         </Route>
 
         {/* fallback route */}
@@ -52,7 +49,6 @@ function App() {
   )
 }
 
-// Wrap the entire app in UserProvider and AuthProvider
 const AppWithProviders = () => (
   <UserProvider>
     <AuthProvider>

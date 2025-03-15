@@ -18,7 +18,6 @@ export default function LandingPage() {
     <Layout>
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
         <main className="flex-1">
-        {/* Hero Section */}
         <section className="relative py-20 md:py-32 overflow-hidden bg-gradient-to-br from-background via-background to-background/80">
           <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
           <div className="container px-4 md:px-6">
@@ -43,13 +42,6 @@ export default function LandingPage() {
                         key={i}
                         className="inline-block h-8 w-8 rounded-full border-2 border-background overflow-hidden"
                       >
-                        {/* <Image
-                          src={`/placeholder.svg?height=100&width=100&text=${i}`}
-                          alt="User"
-                          width={32}
-                          height={32}
-                          className="h-full w-full object-cover"
-                        /> */}
                       </div>
                     ))}
                   </div>
@@ -209,13 +201,6 @@ export default function LandingPage() {
                         <p className="text-muted-foreground">"{testimonial.quote}"</p>
                       </div>
                       <div className="flex items-center gap-4">
-                        {/* <Image
-                          src={testimonial.avatar || "/placeholder.svg"}
-                          alt={testimonial.author}
-                          width={48}
-                          height={48}
-                          className="rounded-full"
-                        /> */}
                         <div>
                           <h4 className="font-semibold">{testimonial.author}</h4>
                           <p className="text-sm text-muted-foreground">{testimonial.role}</p>

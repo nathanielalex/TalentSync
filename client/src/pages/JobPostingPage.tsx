@@ -12,7 +12,6 @@ import axios from "axios"
 import { useAuth } from "@/context/AuthContext"
 import { useNavigate } from "react-router-dom"
 
-// Sample skill suggestions
 const SKILL_SUGGESTIONS = [
   "JavaScript", "React", "Node.js", "TypeScript", "HTML", "CSS", "Python", 
   "WordPress", "PHP", "UI/UX Design", "Graphic Design", "Content Writing", 
@@ -39,7 +38,6 @@ export default function SimplifiedJobPostingForm() {
   const { userId } = useAuth();
   const navigate = useNavigate();
 
-  // Filtered skill suggestions based on input
   const [filteredSkills, setFilteredSkills] = useState<string[]>([])
   const [showSkillSuggestions, setShowSkillSuggestions] = useState<boolean>(false)
 
@@ -50,13 +48,11 @@ export default function SimplifiedJobPostingForm() {
     isActive: true
   };
 
-  // Handle text input changes
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData({ ...formData, [name]: value })
   }
 
-  // Handle skill input
   const handleSkillInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     // setFormData({ ...formData, skillInput: value })
@@ -71,7 +67,6 @@ export default function SimplifiedJobPostingForm() {
     }
   }
 
-  // Add a skill
   const addSkill = (skill: string) => {
     if (skill.trim() && !formData.requiredSkills.includes(skill)) {
       setFormData({
@@ -83,7 +78,6 @@ export default function SimplifiedJobPostingForm() {
     setShowSkillSuggestions(false)
   }
 
-  // Remove a skill
   const removeSkill = (skill: string) => {
     setFormData({
       ...formData,
@@ -91,7 +85,6 @@ export default function SimplifiedJobPostingForm() {
     })
   }
 
-  // Handle budget slider change
   const handleBudgetChange = (value: number[]) => {
     setFormData({
       ...formData,
@@ -99,7 +92,6 @@ export default function SimplifiedJobPostingForm() {
     })
   }
 
-  // Handle form submission
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -135,7 +127,6 @@ export default function SimplifiedJobPostingForm() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
-                {/* Job Title */}
                 <div>
                   <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
                     Job Title <span className="text-red-500">*</span>
@@ -150,7 +141,6 @@ export default function SimplifiedJobPostingForm() {
                   />
                 </div>
 
-                {/* Job Description */}
                 <div>
                   <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">
                     Job Description <span className="text-red-500">*</span>
@@ -180,7 +170,6 @@ export default function SimplifiedJobPostingForm() {
                   />
                 </div>
 
-                {/* Required Skills */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Required Skills <span className="text-red-500">*</span>
@@ -245,7 +234,6 @@ export default function SimplifiedJobPostingForm() {
                   )}
                 </div>
 
-                {/* Budget Range */}
                 <div>
                   <div className="flex items-center justify-between mb-1">
                     <label className="block text-sm font-medium text-gray-700">

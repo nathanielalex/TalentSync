@@ -77,7 +77,6 @@ export default function JobsAppliedPage() {
                 <Card key={applicant._id}>
                   <CardContent className="p-4">
                     <div className="flex flex-col md:flex-row md:items-center gap-4">
-                      {/* Applicant Info */}
                       <div className="flex items-center flex-1">
                         <Avatar className="h-12 w-12 mr-4">
                           <AvatarFallback>{applicant.jobTitle.charAt(0)}</AvatarFallback>
@@ -99,7 +98,6 @@ export default function JobsAppliedPage() {
                         </div>
                       </div>
 
-                      {/* Status */}
                       <div className="w-28 flex justify-center">
                         <Badge
                           className={
@@ -119,7 +117,6 @@ export default function JobsAppliedPage() {
                       
                     </div>
 
-                    {/* Skills */}
                     <div className="mt-4">
                       <div className="flex flex-wrap gap-2">
                         {applicant.requiredSkills.map((skill) => (

@@ -60,13 +60,11 @@ export default function RegisterPage() {
     setSelectedRole(role);
   };
 
-  // Handle input changes
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Handle form submission
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -78,7 +76,6 @@ export default function RegisterPage() {
       setIsSuccess(true);
       setMessage("User registered successfully! You can now log in.");
       setIsNew(true)
-      // Redirect to login page after a brief delay
       setTimeout(() => {
         navigate("/login");
       }, 2000);
@@ -168,7 +165,6 @@ export default function RegisterPage() {
               <div className="space-y-4">
                 <Label>Role</Label>
                 <RadioGroup value={selectedRole} onValueChange={handleRoleChange} className="flex space-x-4 mb-6">
-                  {/* Owner */}
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem
                       value="seeker"
@@ -187,7 +183,6 @@ export default function RegisterPage() {
                     </Label>
                   </div>
 
-                  {/* Renter */}
                   <div className="flex items-center space-x-2">
                     <RadioGroupItem
                       value="recruiter"
@@ -208,7 +203,6 @@ export default function RegisterPage() {
                 </RadioGroup>
               </div>
 
-              {/* Profile Picture */}
               <div className="space-y-4">
                 <Label htmlFor="profile-picture">Profile Picture</Label>
                 <div className="mt-2 flex items-center space-x-4 mb-6">

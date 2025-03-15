@@ -25,7 +25,7 @@ export default function ViewProfilePage() {
       try {
         const response = await fetch(`http://localhost:8080/api/user/${id}`);
         const data = await response.json();
-        setUserDetails(data); // Set the fetched user details to the state
+        setUserDetails(data); 
       } catch (error) {
         console.error('Error fetching user details:', error);
       } finally {

@@ -3,7 +3,6 @@ import { updateSeekerDetails, getUserDetails } from "../controllers/user.control
 
 const router = express.Router();
 
-// router.put("/:userId", updateProfile);
 router.put("/seeker/:userId", updateSeekerDetails);
 router.get("/:userId", getUserDetails);
 

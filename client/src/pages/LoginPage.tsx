@@ -31,13 +31,11 @@ export default function LoginPage() {
   const { login } = useAuth()
   const navigate = useNavigate()
 
-  // Handle input changes
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setFormData({ ...formData, [name]: value })
   }
 
-  // Handle form submission
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
@@ -49,7 +47,6 @@ export default function LoginPage() {
       setIsSuccess(true)
       setMessage("Login successful!")
 
-      // Store JWT token in localStorage
       if (response.data.token) {
         localStorage.setItem("token", response.data.token)
         localStorage.setItem("role", response.data.role)

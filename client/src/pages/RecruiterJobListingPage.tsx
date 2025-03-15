@@ -11,54 +11,6 @@ import axios from "axios"
 import { Job } from "@/shared/schema"
 import { useAuth } from "@/context/AuthContext"
 
-// Mock data for jobs
-// const JOBS = [
-//   {
-//     id: 1,
-//     title: "Senior React Developer",
-//     postedBy: "Sarah Johnson",
-//     postedAt: "2023-06-15T10:00:00Z",
-//     location: "Remote",
-//     salary: "$100,000 - $130,000",
-//     description:
-//       "We're seeking an experienced React developer to lead our frontend team in building innovative web applications.",
-//     requiredSkills: ["React", "TypeScript", "Redux", "Node.js"],
-//     isCurrent: true,
-//   },
-//   {
-//     id: 2,
-//     title: "UX/UI Designer",
-//     postedBy: "Sarah Johnson",
-//     postedAt: "2023-05-20T14:30:00Z",
-//     location: "New York, NY",
-//     salary: "$80,000 - $110,000",
-//     description: "Join our creative team to design intuitive and beautiful user interfaces for our products.",
-//     requiredSkills: ["Figma", "Adobe XD", "User Research", "Prototyping"],
-//     isCurrent: true,
-//   },
-//   {
-//     id: 3,
-//     title: "Full Stack JavaScript Developer",
-//     postedBy: "Sarah Johnson",
-//     postedAt: "2023-04-10T09:15:00Z",
-//     location: "San Francisco, CA",
-//     salary: "$90,000 - $120,000",
-//     description: "We're looking for a versatile developer comfortable with both frontend and backend technologies.",
-//     requiredSkills: ["JavaScript", "React", "Node.js", "MongoDB"],
-//     isCurrent: false,
-//   },
-//   {
-//     id: 4,
-//     title: "DevOps Engineer",
-//     postedBy: "Sarah Johnson",
-//     postedAt: "2023-03-05T11:45:00Z",
-//     location: "Remote",
-//     salary: "$110,000 - $140,000",
-//     description: "Help us streamline our development and deployment processes with your DevOps expertise.",
-//     requiredSkills: ["AWS", "Docker", "Kubernetes", "CI/CD"],
-//     isCurrent: false,
-//   },
-// ]
 
 export default function RecruiterJobListingPage() {
   const { userId } = useAuth()
@@ -79,7 +31,6 @@ export default function RecruiterJobListingPage() {
     navigate(`/applicants/${id}`);
   }
 
-  // Filter jobs dynamically based on the `isActive` attribute
   useEffect(() => {
     if (!loading) {
       const filteredCurrentJobs = jobs.filter((job) => job.isActive)
@@ -87,7 +38,7 @@ export default function RecruiterJobListingPage() {
       setCurrentJobs(filteredCurrentJobs)
       setPastJobs(filteredPastJobs)
     }
-  }, [jobs, loading]) // Trigger when jobs or loa
+  }, [jobs, loading])
 
   useEffect(() => {
     const fetchJobsByRecruiter = async () => {
@@ -119,7 +70,6 @@ export default function RecruiterJobListingPage() {
         <div className="flex justify-between items-start">
           <div>
             <h3 className="text-xl font-semibold text-gray-900">{job.title}</h3>
-            {/* <p className="text-sm text-gray-500 mt-1">Posted by {job.postedBy}</p> */}
           </div>
           <Badge variant={job.isActive ? "default" : "secondary"}>
             {job.isActive ? "Active" : "Closed"}
@@ -163,7 +113,6 @@ export default function RecruiterJobListingPage() {
   return (
     <Layout>
       <div className="min-h-screen bg-gray-50">
-        {/* Main Content */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="md:flex md:items-center md:justify-between mb-6">
             <div className="flex-1 min-w-0">

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import Job from "../models/job.model.js";  // Assuming your Job model is in this path
+import Job from "../models/job.model.js"; 
 
-// Get all jobs
+
 export const getJobs = async (req, res) => {
   try {
     const jobs = await Job.find({});
@@ -40,11 +40,9 @@ export const getJobById = async (req, res) => {
 };
 
 
-// Create a new job
 export const createJob = async (req, res) => {
   const job = req.body;
 
-  // fields validation
   if (!job.title || !job.postedBy || !job.postedAt || !job.location || !job.salary || !job.description || !job.requiredSkills) {
     return res.status(400).json({ success: false, message: "Please provide all required fields" });
   }
@@ -60,7 +58,6 @@ export const createJob = async (req, res) => {
   }
 };
 
-// Update a job by ID
 export const updateJob = async (req, res) => {
   const { id } = req.params;
   const job = req.body;
@@ -78,7 +75,6 @@ export const updateJob = async (req, res) => {
   }
 };
 
-// Delete a job by ID
 export const deleteJob = async (req, res) => {
   const { id } = req.params;
 
@@ -95,16 +91,15 @@ export const deleteJob = async (req, res) => {
   }
 };
 
-// Find jobs by recruiter
+
 export const getJobsByRecruiter = async (req, res) => {
-  const recruiterId = req.params.recruiterId;  // Assuming recruiterId is passed as a URL parameter
-  // Check if recruiterId is a valid MongoDB ObjectId
+  const recruiterId = req.params.recruiterId; 
+
   if (!mongoose.Types.ObjectId.isValid(recruiterId)) {
     return res.status(400).json({ success: false, message: "Invalid recruiter ID" });
   }
 
   try {
-    // Find all jobs posted by the recruiter
     const jobs = await Job.find({ postedBy: recruiterId });
 
     if (jobs.length === 0) {

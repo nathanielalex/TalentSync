@@ -26,8 +26,8 @@ export default function ApplicantListPage() {
   const { id } = useParams();
   const [applicants, setApplicants] = useState<Application[]>([]);
   const [loading, setLoading] = useState(true);
-  const [status, setStatus] = useState<Status>("applied"); // Default status is "applied"
-  const [statusApplicant, setStatusApplicant] = useState<Status>("applied"); // Keeps track of status change
+  const [status, setStatus] = useState<Status>("applied");
+  const [statusApplicant, setStatusApplicant] = useState<Status>("applied");
 
   useEffect(() => {
     async function fetchApplicants() {
@@ -65,8 +65,6 @@ export default function ApplicantListPage() {
 
       if (response.status === 200) {
         // console.log(`Application status updated to: ${response.data.application.status}`);
-
-        // Update applicant status locally after API update
         setApplicants((prevApplicants) =>
           prevApplicants.map((applicant) =>
             applicant._id === applicationId
@@ -113,7 +111,6 @@ export default function ApplicantListPage() {
                 <Card key={applicant._id}>
                   <CardContent className="p-4">
                     <div className="flex flex-col md:flex-row md:items-center gap-4">
-                      {/* Applicant Info */}
                       <div className="flex items-center flex-1">
                         <Avatar className="h-12 w-12 mr-4">
                           <AvatarFallback>{applicant.fullName.charAt(0)}</AvatarFallback>
@@ -135,7 +132,6 @@ export default function ApplicantListPage() {
                         </div>
                       </div>
 
-                      {/* Status */}
                       <div className="w-28 flex justify-center">
                         <Badge
                           className={
@@ -152,7 +148,6 @@ export default function ApplicantListPage() {
                         </Badge>
                       </div>
 
-                      {/* Actions */}
                       <div className="flex space-x-2">
                         <Button variant="outline" size="sm" onClick={() => handleViewProfile(applicant.applicant)}>
                           View
@@ -173,7 +168,6 @@ export default function ApplicantListPage() {
                       </div>
                     </div>
 
-                    {/* Skills */}
                     <div className="mt-4">
                       <div className="flex flex-wrap gap-2">
                         {applicant.skills.map((skill) => (

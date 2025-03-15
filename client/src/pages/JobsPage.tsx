@@ -22,88 +22,6 @@ import Layout from "@/components/Layout"
 import { Job } from "@/shared/schema"
 import { useNavigate } from "react-router-dom"
 
-// Sample job data
-// const JOBS = [
-//   {
-//     id: 1,
-//     title: "Frontend React Developer",
-//     company: "TechSolutions Inc.",
-//     location: "Remote",
-//     type: "Contract",
-//     rate: "$40-60/hr",
-//     posted: "2 days ago",
-//     description:
-//       "We're looking for an experienced React developer to help build our new customer portal. You should have strong experience with React, TypeScript, and responsive design.",
-//     skills: ["React", "TypeScript", "CSS", "Responsive Design"],
-//     saved: false,
-//   },
-//   {
-//     id: 2,
-//     title: "WordPress Website Designer",
-//     company: "CreativeMinds Agency",
-//     location: "Remote",
-//     type: "Fixed-price",
-//     rate: "$2,000-3,000",
-//     posted: "5 hours ago",
-//     description:
-//       "Need a talented WordPress designer to create a professional website for a local restaurant. Should include online ordering functionality and mobile responsiveness.",
-//     skills: ["WordPress", "UI/UX", "PHP", "JavaScript"],
-//     saved: true,
-//   },
-//   {
-//     id: 3,
-//     title: "Full Stack Developer",
-//     company: "StartupBoost",
-//     location: "New York, NY (Hybrid)",
-//     type: "Contract",
-//     rate: "$50-70/hr",
-//     posted: "1 week ago",
-//     description:
-//       "Join our team to help build our SaaS platform. We're looking for a full stack developer with experience in React, Node.js, and MongoDB.",
-//     skills: ["React", "Node.js", "MongoDB", "Express"],
-//     saved: false,
-//   },
-//   {
-//     id: 4,
-//     title: "Mobile App Developer (iOS)",
-//     company: "AppWorks Digital",
-//     location: "Remote",
-//     type: "Contract",
-//     rate: "$45-65/hr",
-//     posted: "3 days ago",
-//     description:
-//       "Experienced iOS developer needed for an ongoing project. Must have Swift experience and a portfolio of published apps.",
-//     skills: ["Swift", "iOS", "Xcode", "UI Design"],
-//     saved: false,
-//   },
-//   {
-//     id: 5,
-//     title: "Content Writer - Technology",
-//     company: "TechBlog Media",
-//     location: "Remote",
-//     type: "Fixed-price",
-//     rate: "$200-500 per article",
-//     posted: "1 day ago",
-//     description:
-//       "Looking for a technology writer to create engaging blog posts about the latest tech trends. Must have excellent research skills and SEO knowledge.",
-//     skills: ["Content Writing", "SEO", "Research", "Technology"],
-//     saved: false,
-//   },
-//   {
-//     id: 6,
-//     title: "UX/UI Designer",
-//     company: "DesignPro Agency",
-//     location: "San Francisco, CA (On-site)",
-//     type: "Full-time",
-//     rate: "$80-100k/year",
-//     posted: "4 days ago",
-//     description:
-//       "Join our design team to create beautiful, user-friendly interfaces for our clients. Must have a strong portfolio and experience with Figma and Adobe Creative Suite.",
-//     skills: ["UI Design", "UX Research", "Figma", "Adobe XD"],
-//     saved: true,
-//   },
-// ]
-
 export default function JobPage() {
   const [jobs, setJobs] = useState<Job[]>([])
   const [searchTerm, setSearchTerm] = useState("")
@@ -132,14 +50,9 @@ export default function JobPage() {
     fetchJobs()
   }, [])
 
-  // Toggle saved status for a job
-  // const toggleSaved = (id: number) => {
-  //   setJobs(jobs.map((job) => (job.id === id ? { ...job, saved: !job.saved } : job)))
-  // }
 
-  // Filter jobs based on search term and saved filter
   const filteredJobs = loading
-    ? [] // No jobs to filter while loading
+    ? []
     : jobs.filter((job) => {
         const matchesSearch =
           job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -148,9 +61,6 @@ export default function JobPage() {
             skill.toLowerCase().includes(searchTerm.toLowerCase())
           );
 
-        // if (savedOnly) {
-        //   return matchesSearch && job.saved;
-        // }
 
         return matchesSearch; 
       });
@@ -164,7 +74,6 @@ export default function JobPage() {
   return (
     <Layout>
       <div className="min-h-screen bg-gray-50">
-        {/* Main Content */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="md:flex md:items-center md:justify-between">
             <div className="flex-1 min-w-0">
@@ -173,7 +82,6 @@ export default function JobPage() {
             </div>
           </div>
 
-          {/* Search Bar */}
           <div className="mt-6">
             <div className="relative rounded-md shadow-sm">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -196,7 +104,6 @@ export default function JobPage() {
             </div>
           </div>
 
-          {/* Mobile Filter Button */}
           <div className="mt-4 md:hidden">
             <Button
               variant="outline"
@@ -210,11 +117,9 @@ export default function JobPage() {
           </div>
 
           <div className="mt-6 md:grid md:grid-cols-12 md:gap-8">
-            {/* Filters Sidebar */}
             <aside className={`md:col-span-3 ${mobileFiltersOpen ? "block" : "hidden"} md:block`}>
               <div className="sticky top-20 space-y-6">
 
-                {/* Skills */}
                 <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
                   <h3 className="text-lg font-medium text-gray-900 mb-4">Skills</h3>
                   <div className="space-y-3">
@@ -234,9 +139,7 @@ export default function JobPage() {
               </div>
             </aside>
 
-            {/* Job Listings */}
             <div className="mt-6 md:mt-0 md:col-span-9">
-              {/* Sort Options */}
               <div className="flex justify-between items-center mb-4">
                 <p className="text-sm text-gray-500">Showing {filteredJobs.length} results</p>
                 <div className="flex items-center">
@@ -255,7 +158,6 @@ export default function JobPage() {
                 </div>
               </div>
 
-              {/* Job Cards */}
               <div className="space-y-4">
                 {filteredJobs.length > 0 ? (
                   filteredJobs.map((job) => (
@@ -267,11 +169,8 @@ export default function JobPage() {
                               <h3 className="text-lg font-medium text-gray-900 hover:text-primary">
                                 <a href="#">{job.title}</a>
                               </h3>
-                              {/* <p className="mt-1 text-sm text-gray-500">{job.company}</p> */}
                             </div>
-                            {/* <button className="text-gray-400 hover:text-primary" onClick={() => toggleSaved(job.id)}>
-                              <BookmarkIcon className={`h-5 w-5 ${job.saved ? "fill-primary text-primary" : ""}`} />
-                            </button> */}
+
                           </div>
 
                           <div className="mt-4 flex flex-wrap gap-2">
@@ -294,9 +193,7 @@ export default function JobPage() {
                               <DollarSignIcon className="h-4 w-4 mr-1" />
                               {job.salary}
                             </div>
-                            {/* <Badge variant="outline" className="text-xs">
-                              {job.type}
-                            </Badge> */}
+
                           </div>
 
                           <p className="mt-4 text-sm text-gray-600 line-clamp-2">{job.description}</p>
@@ -335,7 +232,6 @@ export default function JobPage() {
                 )}
               </div>
 
-              {/* Pagination */}
               {filteredJobs.length > 0 && (
                 <div className="mt-8 flex justify-center">
                   <nav className="flex items-center space-x-2">

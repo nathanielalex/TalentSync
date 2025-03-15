@@ -29,7 +29,6 @@ import { useAuth } from "@/context/AuthContext"
 import { useParams } from "react-router-dom"
 import { User } from "@/shared/schema"
 
-// Sample skill suggestions
 const SKILL_SUGGESTIONS = [
   "JavaScript",
   "React",
@@ -226,14 +225,7 @@ export default function SeekerProfilePage() {
     setNewExperience({ ...newExperience, [name]: value })
   }
 
-  // Handle current job checkbox
-  // const handleCurrentJobChange = (checked: boolean) => {
-  //   setNewExperience({
-  //     ...newExperience,
-  //     current: checked,
-  //     endDate: checked ? "" : newExperience.endDate,
-  //   })
-  // }
+
 
   const addExperience = () => {
     if (newExperience.title && newExperience.company && newExperience.startDate) {
@@ -329,7 +321,6 @@ export default function SeekerProfilePage() {
 
       <div className="min-h-screen bg-gray-50">
 
-        {/* Main Content */}
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex items-center justify-between mb-6">
             <div>
@@ -342,7 +333,7 @@ export default function SeekerProfilePage() {
 
           <form onSubmit={handleSubmit}>
             <div className="space-y-6">
-              {/* Profile Photo */}
+
               <Card>
                 <CardContent className="">
                   <div className="flex items-center">
@@ -381,7 +372,7 @@ export default function SeekerProfilePage() {
                 </CardContent>
               </Card>
 
-              {/* Personal Information */}
+
               <Card>
                 <CardContent className="pt-2">
                   <h3 className="text-lg font-medium text-gray-900 mb-4">Personal Information</h3>
@@ -447,7 +438,7 @@ export default function SeekerProfilePage() {
                 </CardContent>
               </Card>
 
-              {/* Skills & Hourly Rate */}
+
               <Card>
                 <CardContent className="pt-2">
                   <h3 className="text-lg font-medium text-gray-900 mb-4">Skills & Hourly Rate</h3>
@@ -546,7 +537,7 @@ export default function SeekerProfilePage() {
                 </CardContent>
               </Card>
 
-              {/* Work Experience */}
+
               <Card>
                 <CardContent className="pt-2">
                   <div className="flex items-center justify-between mb-4">
@@ -706,7 +697,7 @@ export default function SeekerProfilePage() {
                 </CardContent>
               </Card>
 
-              {/* Education */}
+
               <Card>
                 <CardContent className="pt-2">
                   <div className="flex items-center justify-between mb-4">
@@ -866,7 +857,7 @@ export default function SeekerProfilePage() {
                 </CardContent>
               </Card>
 
-              {/* Save Button */}
+
               <div className="flex justify-end">
                 <Button type="submit" className="flex items-center">
                   <SaveIcon className="h-4 w-4 mr-2" />

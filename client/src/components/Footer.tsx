@@ -56,23 +56,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* <div className="space-y-4">
-            <h3 className="text-sm font-medium">Resources</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link to="#" className="text-muted-foreground hover:text-foreground">Help & Support</Link>
-              </li>
-              <li>
-                <Link to="#" className="text-muted-foreground hover:text-foreground">Success Stories</Link>
-              </li>
-              <li>
-                <Link to="#" className="text-muted-foreground hover:text-foreground">Blog</Link>
-              </li>
-              <li>
-                <Link to="#" className="text-muted-foreground hover:text-foreground">Resources</Link>
-              </li>
-            </ul>
-          </div> */}
+          
         </div>
 
         <div className="mt-12 border-t pt-6 flex flex-col md:flex-row justify-between items-center gap-4">

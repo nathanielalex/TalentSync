@@ -133,7 +133,6 @@ const userSchema = new mongoose.Schema({
     required: true,
     default: 'https://cdn.pixabay.com/photo/2022/02/23/20/17/man-7031423_1280.png',
   },
-  // Role-specific fields
   seekerDetails: {
     type: seekerDetailsSchema,
     required: function () {
@@ -152,7 +151,6 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-// hash password
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
   this.password = await bcrypt.hash(this.password, 10);

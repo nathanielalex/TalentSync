@@ -30,7 +30,6 @@ import { useParams } from "react-router-dom"
 import { User } from "@/shared/schema"
 import { useUser } from "@/context/UserContex"
 
-// Sample skill suggestions
 const SKILL_SUGGESTIONS = [
   "JavaScript",
   "React",
@@ -148,7 +147,6 @@ export default function FillSeekerProfilePage() {
 
   const handleSkillInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
-    // setProfileData({ ...profileData, skillInput: value })
     setSkillInput(value)
     if (value.trim()) {
       const filtered = SKILL_SUGGESTIONS.filter(
@@ -307,7 +305,6 @@ export default function FillSeekerProfilePage() {
 
       <div className="min-h-screen bg-gray-50">
 
-        {/* Main Content */}
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex items-center justify-between mb-6">
             <div>
@@ -320,7 +317,6 @@ export default function FillSeekerProfilePage() {
 
           <form onSubmit={handleSubmit}>
             <div className="space-y-6">
-              {/* Profile Photo */}
               <Card>
                 <CardContent className="">
                   <div className="flex items-center">
@@ -359,7 +355,6 @@ export default function FillSeekerProfilePage() {
                 </CardContent>
               </Card>
 
-              {/* Personal Information */}
               <Card>
                 <CardContent className="pt-2">
                   <h3 className="text-lg font-medium text-gray-900 mb-4">Personal Information</h3>
@@ -425,7 +420,6 @@ export default function FillSeekerProfilePage() {
                 </CardContent>
               </Card>
 
-              {/* Skills & Hourly Rate */}
               <Card>
                 <CardContent className="pt-2">
                   <h3 className="text-lg font-medium text-gray-900 mb-4">Skills & Hourly Rate</h3>
@@ -524,7 +518,6 @@ export default function FillSeekerProfilePage() {
                 </CardContent>
               </Card>
 
-              {/* Work Experience */}
               <Card>
                 <CardContent className="pt-2">
                   <div className="flex items-center justify-between mb-4">
@@ -684,7 +677,6 @@ export default function FillSeekerProfilePage() {
                 </CardContent>
               </Card>
 
-              {/* Education */}
               <Card>
                 <CardContent className="pt-2">
                   <div className="flex items-center justify-between mb-4">
@@ -844,7 +836,6 @@ export default function FillSeekerProfilePage() {
                 </CardContent>
               </Card>
 
-              {/* Save Button */}
               <div className="flex justify-end">
                 <Button type="submit" className="flex items-center">
                   <SaveIcon className="h-4 w-4 mr-2" />

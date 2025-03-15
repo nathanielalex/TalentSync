@@ -1,6 +1,5 @@
 import type React from "react"
 import { useEffect, useState } from "react"
-// import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@/components/ui/input"
@@ -109,6 +108,9 @@ export default function JobDetailPage() {
       setStatus('Applying...');      
       const response = await axios.post(`http://localhost:8080/api/application/${id}/apply`, {
         userId: userId,
+        fullName: userDetails?.seekerDetails?.fullName,
+        email: userDetails?.email,
+        skills: userDetails?.seekerDetails?.skills
       });
 
       if (response.status === 201) {

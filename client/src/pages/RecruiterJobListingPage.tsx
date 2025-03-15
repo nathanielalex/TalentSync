@@ -75,6 +75,10 @@ export default function RecruiterJobListingPage() {
     navigate(`/job-posting`);
   }
 
+  function handleViewApplicants(id: string) {
+    navigate(`/applicants/${id}`);
+  }
+
   // Filter jobs dynamically based on the `isActive` attribute
   useEffect(() => {
     if (!loading) {
@@ -146,7 +150,7 @@ export default function RecruiterJobListingPage() {
         </div>
         {job.isActive && (
           <div className="mt-6">
-            <Button className="w-full">
+            <Button className="w-full" onClick={() => handleViewApplicants(job._id)}>
             <Users className="h-4 w-4 mr-2" />
             View Applicants
             </Button>

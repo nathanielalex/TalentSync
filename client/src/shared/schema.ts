@@ -1,3 +1,18 @@
+export interface Application {
+  _id: string;   
+  applicant: string;
+  fullName: string;
+  email: string;      
+  job: string;
+  skills: string[]; 
+  status: 'applied' | 'interview' | 'hired' | 'rejected'; 
+  appliedAt: string;               
+  jobTitle: string;        
+  jobLocation: string;         
+  salary: number;            
+  requiredSkills: string[]; 
+}
+
 export interface Experience {
   title: string;
   company: string;

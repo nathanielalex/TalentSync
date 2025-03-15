@@ -14,6 +14,7 @@ import SeekerProfilePage from './pages/SeekerProfilePage'
 import RecruiterJobListingPage from './pages/RecruiterJobListingPage'
 import FillSeekerProfilePage from './pages/FillSeekerProfilePage'
 import { UserProvider, useUser } from './context/UserContex'
+import ApplicantListPage from './pages/ApplicantListPage'
 
 function App() {
   const { isNew } = useUser();
@@ -26,6 +27,7 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/" element={<LandingPage />} />
         <Route path="/jobs" element={<JobPage />} />
+        <Route path="/applicants/:id" element={<ApplicantListPage />} />
         <Route path="/jobs/:id" element={<JobDetailPage />} />
         <Route
           path="/seeker-profile"

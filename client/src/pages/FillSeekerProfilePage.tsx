@@ -28,6 +28,7 @@ import axios from "axios"
 import { useAuth } from "@/context/AuthContext"
 import { useParams } from "react-router-dom"
 import { User } from "@/shared/schema"
+import { useUser } from "@/context/UserContex"
 
 // Sample skill suggestions
 const SKILL_SUGGESTIONS = [
@@ -62,42 +63,54 @@ const SKILL_SUGGESTIONS = [
   "Machine Learning",
 ]
 
-export default function FreelancerProfileSimple() {
+interface Experience {
+  id: number;
+  title: string;
+  company: string;
+  location: string;
+  startDate: string;
+  endDate: string;
+  description: string;
+}
+
+interface Education {
+  id: number;
+  degree: string;
+  school: string;
+  location: string;
+  startDate: string;
+  endDate: string;
+  description: string;
+}
+
+interface ProfileData {
+  fullName: string;
+  profileImage: string;
+  headline: string;
+  location: string;
+  hourlyRate: number;
+  overview: string;
+  skills: string[];
+  experience: Experience[];
+  education: Education[];
+}
+
+
+export default function FillSeekerProfilePage() {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [skillInput, setSkillInput] = useState('')
-  const [profileData, setProfileData] = useState({
-    fullName: "John",
+  const [profileData, setProfileData] = useState<ProfileData>({
+    fullName: "",
     profileImage: "/placeholder.svg?height=200&width=200",
-    headline: "Full Stack Developer & UI/UX Designer",
-    location: "San Francisco, CA",
-    hourlyRate: 45,
-    overview:
-      "Experienced full stack developer with 5+ years of experience building web applications. Specialized in React, Node.js, and modern JavaScript frameworks. Passionate about creating intuitive user interfaces and scalable backend systems.",
-    skills: ["React", "JavaScript", "Node.js", "TypeScript", "UI/UX Design"],
-    experience: [
-      {
-        id: 1,
-        title: "Senior Frontend Developer",
-        company: "TechCorp Inc.",
-        location: "San Francisco, CA",
-        startDate: "2020-01",
-        endDate: "2021-01",
-        description:
-          "Led the frontend development team in building a SaaS platform using React and TypeScript. Implemented responsive designs and improved performance by 40%.",
-      },
-    ],
-    education: [
-      {
-        id: 1,
-        degree: "Bachelor of Science in Computer Science",
-        school: "University of California, Berkeley",
-        location: "Berkeley, CA",
-        startDate: "2014-09",
-        endDate: "2018-05",
-        description: "Focused on software engineering and web development. Graduated with honors.",
-      },
-    ],
-  })
+    headline: "",
+    location: "",
+    hourlyRate: 0,
+    overview: "",
+    skills: [],
+    experience: [],
+    education: [],
+    });
+
 
   const [filteredSkills, setFilteredSkills] = useState<string[]>([])
   const [showSkillSuggestions, setShowSkillSuggestions] = useState(false)
@@ -127,35 +140,7 @@ export default function FreelancerProfileSimple() {
   const [userDetails, setUserDetails] = useState<User>();
   const [loading, setLoading] = useState(true);
   const { userId } = useAuth();
-
-  useEffect(() => {
-      async function fetchUserDetails() {
-        try {
-          const response = await fetch(`http://localhost:8080/api/user/${userId}`);
-          const data = await response.json();
-          setUserDetails(data);
-          console.log(data)
-          setProfileData({
-            fullName: data.data.seekerDetails.fullName || profileData.fullName,
-            profileImage: data.data.profileImage || profileData.profileImage,
-            headline: data.data.headline || profileData.headline,
-            location: data.data.location || profileData.location,
-            hourlyRate: data.data.hourlyRate || profileData.hourlyRate,
-            overview: data.data.overview || profileData.overview,
-            skills: data.data.skills || profileData.skills,
-            experience: data.data.experience || profileData.experience,
-            education: data.data.education || profileData.education,
-          });
-        } catch (error) {
-          console.error('Error fetching user details:', error);
-        } finally {
-          setLoading(false);
-        }
-      }
-  
-      fetchUserDetails();
-    }, [userId]); 
-
+  const { setIsNew } = useUser();
   const handleProfileChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setProfileData({ ...profileData, [name]: value })
@@ -226,15 +211,6 @@ export default function FreelancerProfileSimple() {
     const { name, value } = e.target
     setNewExperience({ ...newExperience, [name]: value })
   }
-
-  // Handle current job checkbox
-  // const handleCurrentJobChange = (checked: boolean) => {
-  //   setNewExperience({
-  //     ...newExperience,
-  //     current: checked,
-  //     endDate: checked ? "" : newExperience.endDate,
-  //   })
-  // }
 
   const addExperience = () => {
     if (newExperience.title && newExperience.company && newExperience.startDate) {
@@ -313,10 +289,11 @@ export default function FreelancerProfileSimple() {
   const handleSubmit = async(e: React.FormEvent) => {
     e.preventDefault()
     try {
-      const response = await axios.put(`/api/user/${userId}`, profileData);
+      const response = await axios.put(`http://localhost:8080/api/user/seeker/${userId}`, profileData);
       
       if (response.status === 200) {
-        alert("Profile saved successfully!");
+        setIsNew(false)
+        // alert("Profile saved successfully!");
       }
     } catch (error) {
       console.error("Error saving profile", error);
@@ -881,4 +858,3 @@ export default function FreelancerProfileSimple() {
     </Layout>
   )
 }
-

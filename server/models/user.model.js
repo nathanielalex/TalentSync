@@ -28,7 +28,6 @@ const experienceSchema = new mongoose.Schema({
   },
 });
 
-// Define the education sub-schema
 const educationSchema = new mongoose.Schema({
   degree: {
     type: String,
@@ -56,7 +55,6 @@ const educationSchema = new mongoose.Schema({
   },
 });
 
-// Define the seeker details sub-schema
 const seekerDetailsSchema = new mongoose.Schema({
   fullName: {
     type: String,
@@ -109,7 +107,6 @@ const seekerDetailsSchema = new mongoose.Schema({
   },
 });
 
-// Define the user schema
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -155,14 +152,13 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-// Hash the password before saving it
+// hash password
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
   this.password = await bcrypt.hash(this.password, 10);
   next();
 });
 
-// Compare the input password with the stored password
 userSchema.methods.matchPassword = function (password) {
   return bcrypt.compare(password, this.password);
 };

@@ -12,33 +12,47 @@ import JobDetailPage from './pages/JobDetailPage'
 import JobPostingPage from './pages/JobPostingPage'
 import SeekerProfilePage from './pages/SeekerProfilePage'
 import RecruiterJobListingPage from './pages/RecruiterJobListingPage'
+import FillSeekerProfilePage from './pages/FillSeekerProfilePage'
+import { UserProvider, useUser } from './context/UserContex'
 
 function App() {
+  const { isNew } = useUser();
+  
   return (
-    <AuthProvider>
-      <BrowserRouter>
-          <Routes>
-            {/* public route */}
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/jobs" element={<JobPage />} />
-            <Route path="/jobs/:id" element={<JobDetailPage />} />
-            <Route path="/seeker-profile/:seekerId" element={<SeekerProfilePage />} />
-            <Route path="/recruiter-jobs/:recruiterId" element={<RecruiterJobListingPage />} />
-            
-            {/* private route */}
-            <Route element={<PrivateRoute />}>
-              <Route path="/job-posting" element={<JobPostingPage />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-            </Route>
+    <BrowserRouter>
+      <Routes>
+        {/* public route */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/jobs" element={<JobPage />} />
+        <Route path="/jobs/:id" element={<JobDetailPage />} />
+        <Route
+          path="/seeker-profile"
+          element={isNew ? <FillSeekerProfilePage /> : <SeekerProfilePage />}
+        />
+        <Route path="/recruiter-jobs/:recruiterId" element={<RecruiterJobListingPage />} />
+        
+        {/* private route */}
+        <Route element={<PrivateRoute />}>
+          <Route path="/job-posting" element={<JobPostingPage />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
 
-            {/* fallback route */}
-            <Route path="*" element={<Navigate to="/login" />} />
-          </Routes>
-      </BrowserRouter>
-    </AuthProvider>
+        {/* fallback route */}
+        <Route path="*" element={<Navigate to="/login" />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
-export default App
+// Wrap the entire app in UserProvider and AuthProvider
+const AppWithProviders = () => (
+  <UserProvider>
+    <AuthProvider>
+      <App />
+    </AuthProvider>
+  </UserProvider>
+)
+
+export default AppWithProviders

@@ -12,7 +12,8 @@ const ProfileButton: React.FC = () => {
   }
 
   function handleClick() {
-    navigate(`/seeker-profile/${userId}`);
+    // navigate(`/seeker-profile/${userId}`);
+    navigate(`/seeker-profile`);
   }
 
   return (

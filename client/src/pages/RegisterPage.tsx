@@ -8,6 +8,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { BriefcaseIcon, UserIcon, LockIcon, MailIcon, CheckCircleIcon, AlertCircleIcon, Upload } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useUser } from "@/context/UserContex";
 
 interface RegisterFormData {
   email: string;
@@ -33,6 +34,7 @@ export default function RegisterPage() {
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [selectedRole, setSelectedRole] = useState("");
+  const { setIsNew } = useUser();
 
   const navigate = useNavigate();
 
@@ -75,7 +77,7 @@ export default function RegisterPage() {
 
       setIsSuccess(true);
       setMessage("User registered successfully! You can now log in.");
-
+      setIsNew(true)
       // Redirect to login page after a brief delay
       setTimeout(() => {
         navigate("/login");

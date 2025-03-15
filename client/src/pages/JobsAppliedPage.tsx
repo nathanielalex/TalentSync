@@ -26,9 +26,9 @@ export default function ApplicantListPage() {
   const { id } = useParams();
   const [applicants, setApplicants] = useState<Application[]>([]);
   const [loading, setLoading] = useState(true);
-  const [status, setStatus] = useState<Status>("applied"); // Default status is "applied"
-  const [statusApplicant, setStatusApplicant] = useState<Status>("applied"); // Keeps track of status change
-
+  const [status, setStatus] = useState<Status>("applied");
+  const [statusApplicant, setStatusApplicant] = useState<Status>("applied");
+  const navigate = useNavigate();
   useEffect(() => {
     async function fetchApplicants() {
       try {
@@ -46,11 +46,10 @@ export default function ApplicantListPage() {
   }, [id]);
 
   const handleStatusChange = (value: Status) => {
-    setStatus(value);
-    setStatusApplicant(value); 
-  }
+    setStatus(value); // Update the state with the selected status
+    setStatusApplicant(value); // Track the status of the specific applicant
+  };
 
-  const navigate = useNavigate()
   const handleViewProfile = (id: string) => {
     console.log('click view')
     navigate(`/view-profile/${id}`)

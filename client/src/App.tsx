@@ -15,6 +15,7 @@ import RecruiterJobListingPage from './pages/RecruiterJobListingPage'
 import FillSeekerProfilePage from './pages/FillSeekerProfilePage'
 import { UserProvider, useUser } from './context/UserContex'
 import ApplicantListPage from './pages/ApplicantListPage'
+import ViewProfilePage from './pages/ViewProfilePage'
 
 function App() {
   const { isNew } = useUser();
@@ -34,6 +35,7 @@ function App() {
           element={isNew ? <FillSeekerProfilePage /> : <SeekerProfilePage />}
         />
         <Route path="/recruiter-jobs/:recruiterId" element={<RecruiterJobListingPage />} />
+        <Route path="/view-profile/:id" element={<ViewProfilePage />} />
         
         {/* private route */}
         <Route element={<PrivateRoute />}>

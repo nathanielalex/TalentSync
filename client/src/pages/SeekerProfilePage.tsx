@@ -26,6 +26,7 @@ import {
 import Layout from "@/components/Layout"
 import axios from "axios"
 import { useAuth } from "@/context/AuthContext"
+import { useParams } from "react-router-dom"
 
 // Sample skill suggestions
 const SKILL_SUGGESTIONS = [
@@ -127,7 +128,8 @@ export default function FreelancerProfileSimple() {
   const [showAddEducation, setShowAddEducation] = useState(false)
   const [profileCompleteness, setProfileCompleteness] = useState(75)
 
-  // Handle text input changes for profile data
+  const { id } = useParams();
+
   const handleProfileChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setProfileData({ ...profileData, [name]: value })

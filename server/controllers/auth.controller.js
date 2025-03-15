@@ -17,8 +17,8 @@ export const registerUser = async (req, res) => {
       password,
       role,
       profilePicture,
-      seekerDetails: role === 'seeker' ? {} : undefined,
-      recruiterDetails: role === 'recruiter' ? {} : undefined,
+      // seekerDetails: role === 'seeker' ? {} : undefined,
+      // recruiterDetails: role === 'recruiter' ? {} : undefined,
     });
     await newUser.save();
     res.status(201).json({ message: 'User created successfully' });

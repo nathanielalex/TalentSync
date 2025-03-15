@@ -60,7 +60,9 @@ const educationSchema = new mongoose.Schema({
 const seekerDetailsSchema = new mongoose.Schema({
   fullName: {
     type: String,
-    required: true,
+    required: function () {
+      return this.isModified('fullName');
+    },
   },
   profileImage: {
     type: String,
@@ -69,23 +71,33 @@ const seekerDetailsSchema = new mongoose.Schema({
   },
   headline: {
     type: String,
-    required: true,
+    required: function () {
+      return this.isModified('headline');
+    },
   },
   location: {
     type: String,
-    required: true,
+    required: function () {
+      return this.isModified('location');
+    },
   },
   hourlyRate: {
     type: Number,
-    required: true,
+    required: function () {
+      return this.isModified('hourlyRate');
+    },
   },
   overview: {
     type: String,
-    required: true,
+    required: function () {
+      return this.isModified('overview');
+    },
   },
   skills: {
     type: [String],
-    required: true,
+    required: function () {
+      return this.isModified('skills');
+    },
   },
   experience: {
     type: [experienceSchema],
@@ -128,10 +140,10 @@ const userSchema = new mongoose.Schema({
   seekerDetails: {
     type: seekerDetailsSchema,
     required: function () {
-      return this.role === 'seeker';
+      return this.role === 'seeker' && this.isNew;
     },
     // required: false,
-    // default: {}
+    default: {}
   },
   recruiterDetails: {
     type: Object,

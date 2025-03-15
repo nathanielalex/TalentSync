@@ -3,24 +3,25 @@ import AuthButtons from "@/components/AuthButtons"
 import { BriefcaseIcon, MenuIcon, X } from "lucide-react"
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
+import ProfileButton from "./ProfileButton";
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const { userId } = useAuth()
+  const { userId, authData } = useAuth()
 
   return (
     <nav className="fixed w-full bg-white/80 backdrop-blur-sm border-b border-gray-200 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
-          {/* Logo and Brand */}
+          {/*logo*/}
           <div className="flex items-center">
             <div className="flex-shrink-0 flex items-center">
               <BriefcaseIcon className="h-8 w-8 text-primary" />
               <span className="ml-2 text-xl font-bold text-gray-900">TalentSync</span>
             </div>
 
-            {/* Desktop Navigation Links */}
+            {/*desktop*/}
             <div className="hidden md:ml-12 md:flex md:space-x-8">
               <a href="/" className="text-gray-900 hover:text-primary px-3 py-2 text-sm font-medium">
                 Home
@@ -28,25 +29,28 @@ const Navbar = () => {
               <a href="/jobs" className="text-gray-500 hover:text-primary px-3 py-2 text-sm font-medium">
                 Find Work
               </a>
-              <Link
-                to={`/recruiter-jobs/${userId}`}
-                className="text-gray-500 hover:text-primary px-3 py-2 text-sm font-medium"
-              >
-                My Jobs
-              </Link>
+              {authData.role === 'recruiter' && userId && (
+                <Link
+                  to={`/recruiter-jobs/${userId}`}
+                  className="text-gray-500 hover:text-primary px-3 py-2 text-sm font-medium"
+                >
+                  My Jobs
+                </Link>
+              )}
               <a href="#" className="text-gray-500 hover:text-primary px-3 py-2 text-sm font-medium">
                 About
               </a>
             </div>
           </div>
 
-          {/* Desktop CTA Buttons */}
+          {/*login*/}
           <div className="hidden md:flex md:items-center md:space-x-4">
+            <ProfileButton />
             <AuthButtons />
             {/* <Button size="sm">Sign up</Button> */}
           </div>
 
-          {/* Mobile menu button */}
+          {/*mobile menu*/}
           <div className="flex items-center md:hidden">
             <button
               type="button"
@@ -64,7 +68,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile menu, show/hide based on menu state */}
+      {/*mobile menu, show/hide*/}
       <div className={`md:hidden ${mobileMenuOpen ? "block" : "hidden"}`}>
         <div className="pt-2 pb-3 space-y-1 px-4 sm:px-6">
           <a href="#" className="bg-primary/10 text-primary block px-3 py-2 rounded-md text-base font-medium">

@@ -24,7 +24,7 @@ function App() {
             <Route path="/" element={<LandingPage />} />
             <Route path="/jobs" element={<JobPage />} />
             <Route path="/jobs/:id" element={<JobDetailPage />} />
-            <Route path="/seeker-profile" element={<SeekerProfilePage />} />
+            <Route path="/seeker-profile/:seekerId" element={<SeekerProfilePage />} />
             <Route path="/recruiter-jobs/:recruiterId" element={<RecruiterJobListingPage />} />
             
             {/* private route */}

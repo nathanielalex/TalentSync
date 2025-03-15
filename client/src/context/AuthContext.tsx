@@ -1,30 +1,25 @@
 import { createContext, useState, useContext, useEffect, ReactNode } from 'react';
 import { jwtDecode } from 'jwt-decode';
 
-// Define types for the authentication state
 interface AuthState {
   isAuthenticated: boolean;
   token: string | null;
   role: string
 }
 
-// Define types for the context value (functions for login, logout, and auth state)
 interface AuthContextType {
   authData: AuthState;
   login: (token: string, role: string) => void;
   logout: () => void;
-  userId: string | null; // Add userId here
+  userId: string | null;
 }
 
-// Create a Context with an initial value
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Define the provider props type
 interface AuthProviderProps {
   children: ReactNode;
 }
 
-// AuthProvider component to wrap around the app
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [authData, setAuthData] = useState<AuthState>({
     isAuthenticated: localStorage.getItem('token') !== null,
@@ -32,12 +27,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     role: localStorage.getItem('role') || '',
   });
 
-  // Extract userId from token (if available)
   const getUserId = () => {
     if (authData.token) {
       try {
-        const decodedToken: any = jwtDecode(authData.token); // Decoding the token to get the payload
-        return decodedToken.userId; // Assuming the token contains userId in the payload
+        const decodedToken: any = jwtDecode(authData.token);
+        return decodedToken.userId;
       } catch (error) {
         console.error('Error decoding token', error);
         return null;
@@ -46,21 +40,20 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     return null;
   };
 
-  const userId = getUserId(); // Get userId from decoded token
+  const userId = getUserId();
 
-  // Sync token in localStorage when the authData changes
   useEffect(() => {
     if (authData.token) {
-      localStorage.setItem('token', authData.token); // Sync the token to localStorage
+      localStorage.setItem('token', authData.token);
     } else {
-      localStorage.removeItem('token'); // Remove token from localStorage
+      localStorage.removeItem('token');
     }
     if (authData.role) {
-      localStorage.setItem('role', authData.role); // Sync the role to localStorage
+      localStorage.setItem('role', authData.role);
     } else {
-      localStorage.removeItem('role'); // Remove role from localStorage
+      localStorage.removeItem('role');
     }
-  }, [authData.token, authData.role]); // Run when authData.token changes
+  }, [authData.token, authData.role]);
 
   const login = (token: string, role: string) => {
     setAuthData({ isAuthenticated: true, token, role });
@@ -82,7 +75,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   );
 };
 
-// Custom hook to use the AuthContext
 export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
   if (!context) {

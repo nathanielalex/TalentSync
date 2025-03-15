@@ -129,32 +129,32 @@ export default function SeekerProfilePage() {
   const { userId } = useAuth();
 
   useEffect(() => {
-      async function fetchUserDetails() {
-        try {
-          const response = await fetch(`http://localhost:8080/api/user/${userId}`);
-          const data = await response.json();
-          setUserDetails(data);
-          console.log(data)
-          setProfileData({
-            fullName: data.seekerDetails.fullName || profileData.fullName,
-            profileImage: data.seekerDetails.profileImage || profileData.profileImage,
-            headline: data.seekerDetails.headline || profileData.headline,
-            location: data.seekerDetails.location || profileData.location,
-            hourlyRate: data.seekerDetails.hourlyRate || profileData.hourlyRate,
-            overview: data.seekerDetails.overview || profileData.overview,
-            skills: data.seekerDetails.skills || profileData.skills,
-            experience: data.seekerDetails.experience || profileData.experience,
-            education: data.seekerDetails.education || profileData.education,
-          });
-        } catch (error) {
-          console.error('Error fetching user details:', error);
-        } finally {
-          setLoading(false);
-        }
+    async function fetchUserDetails() {
+      try {
+        const response = await fetch(`http://localhost:8080/api/user/${userId}`);
+        const data = await response.json();
+        setUserDetails(data);
+        console.log(data)
+        setProfileData({
+          fullName: data.seekerDetails.fullName || profileData.fullName,
+          profileImage: data.seekerDetails.profileImage || profileData.profileImage,
+          headline: data.seekerDetails.headline || profileData.headline,
+          location: data.seekerDetails.location || profileData.location,
+          hourlyRate: data.seekerDetails.hourlyRate || profileData.hourlyRate,
+          overview: data.seekerDetails.overview || profileData.overview,
+          skills: data.seekerDetails.skills || profileData.skills,
+          experience: data.seekerDetails.experience || profileData.experience,
+          education: data.seekerDetails.education || profileData.education,
+        });
+      } catch (error) {
+        console.error('Error fetching user details:', error);
+      } finally {
+        setLoading(false);
       }
-  
-      fetchUserDetails();
-    }, [userId]); 
+    }
+
+    fetchUserDetails();
+  }, [userId]); 
 
   const handleProfileChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target

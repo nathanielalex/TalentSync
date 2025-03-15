@@ -62,19 +62,21 @@ export default function JobDetailPage() {
   const { id } = useParams();
   const [job, setJob] = useState<Job>(initialJob);
   const [loading, setLoading] = useState(true);
-  const { userId } = useAuth()
   const [cvText, setCvText] = useState('');
   const [jobDesc, setJobDesc] = useState('');
   const [userDetails, setUserDetails] = useState<User>();
   const [similarityScore, setSimilarityScore] = useState(0)
   const [isOpen, setIsOpen] = useState(false);
+  const [status, setStatus] = useState('');
+  const { userId } = useAuth()
 
   useEffect(() => {
     async function fetchUserDetails() {
       try {
         const response = await fetch(`http://localhost:8080/api/user/${userId}`);
         const data = await response.json();
-        setUserDetails(data.data);
+        setUserDetails(data);
+        console.log(data)
       } catch (error) {
         console.error('Error fetching user details:', error);
       } finally {
@@ -101,16 +103,36 @@ export default function JobDetailPage() {
     fetchJobDetails();
   }, [id]); 
 
+  const handleApply = async () => {
+    try {
+      console.log('applying...')
+      setStatus('Applying...');      
+      const response = await axios.post(`http://localhost:8080/api/application/${id}/apply`, {
+        userId: userId,
+      });
+
+      if (response.status === 201) {
+        setStatus('Successfully applied for the job!');
+      }
+    } catch (error) {
+      console.log(error)
+      setStatus('');
+    }
+  };
+
   const handleClick = async () => {
     try {
       const response = await axios.post('http://localhost:5000/check_similarity', {
-        cv_text: 'Experienced software engineer with expertise in HTML.',  
-        job_desc: 'Looking for a skilled software engineer with Python and Java knowledge, experience in machine learning.' 
+        cv_text: userDetails?.seekerDetails?.overview,  
+        job_desc: job.description
       });
       const result = response.data;
       setSimilarityScore(result.similarity_score);
       console.log(similarityScore)
       setIsOpen(true);
+      if(similarityScore > 0.3) {
+        handleApply()
+      }
     } catch (error) {
       console.error('Error fetching similarity:', error);
     }
@@ -377,7 +399,7 @@ export default function JobDetailPage() {
           <DialogHeader>
             <DialogTitle>Job Suitability Result</DialogTitle>
             <DialogDescription>
-              Based on your CV and job description comparison
+              {/* Based on your CV and job description comparison */}
             </DialogDescription>
           </DialogHeader>
           
@@ -392,7 +414,7 @@ export default function JobDetailPage() {
                   You are suitable for this job position.
                 </p>
                 <p className="text-sm text-gray-500 mt-2">
-                  Similarity Score: {similarityScore.toFixed(2)}
+                  {status}
                 </p>
               </div>
             ) : (
